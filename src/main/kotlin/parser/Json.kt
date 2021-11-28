@@ -1,0 +1,4 @@
+package parser
+
+class Json {
+}
