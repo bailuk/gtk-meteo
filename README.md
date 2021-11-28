@@ -11,8 +11,8 @@ Forecast data is from [Meteorologisk institutt Norge](https://www.met.no).
 ![Screenshot](screenshot.png) 
 
 ## Build
-- Clone, compile and install locally [java-gtk](https://github.com/bailuk/java-gtk): `./regenerateSources.sh && ./buildLibrary.sh && ./reinstallToMavenLocal.sh`
-- Clone, compile and install locally [mapsforge-gtk](https://github.com/bailuk/mapsforge): `./gradlew mapsforge-map-gtk:install`
+- Clone, compile and install [java-gtk](https://github.com/bailuk/java-gtk): `./regenerateSources.sh && ./buildLibrary.sh && ./reinstallToMavenLocal.sh`
+- Clone, compile and install [mapsforge-gtk](https://github.com/bailuk/mapsforge): `./gradlew mapsforge-map-gtk:install`
 - Clone, compile and run this app: `./gradlew run` 
  
  ## License
