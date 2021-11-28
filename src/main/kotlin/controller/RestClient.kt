@@ -1,4 +1,4 @@
-package controler
+package controller
 
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.glib.Glib
@@ -14,6 +14,8 @@ import java.io.IOException
 class RestClient(val file: File, private val start: String = "", private val end : String = "") {
     private val client = OkHttpClient()
     private var call = getCall("http://localhost")
+
+    private val emitter = ch.bailu.gtk.Callback.EmitterID()
 
     var json = Json.parse(file)
         private set
@@ -38,10 +40,7 @@ class RestClient(val file: File, private val start: String = "", private val end
                 downloads--
                 ok = false
 
-                Glib.idleAdd({ l: Pointer? ->
-                    observer(this@RestClient)
-                    GTK.FALSE
-                 }, ch.bailu.gtk.Callback.EmitterID())
+                callBack(observer)
             }
 
 
@@ -51,16 +50,19 @@ class RestClient(val file: File, private val start: String = "", private val end
 
                 val jsonText = start + response.body?.string() + end
                 file.writeText(jsonText)
-                val jsonParsed = Gson().fromJson(jsonText, Map::class.java)
+                json = Json.parse(jsonText)
 
-                json = JsonMap(jsonParsed)
-
-                Glib.idleAdd({ l: Pointer? ->
-                    observer(this@RestClient)
-                    GTK.FALSE
-                }, ch.bailu.gtk.Callback.EmitterID())
+                callBack(observer)
             }
         })
+    }
+
+    private fun callBack(observer: (RestClient)->Unit) {
+        Glib.idleAdd({
+            observer(this@RestClient)
+            GTK.FALSE
+        }, emitter)
+
     }
 
     private fun getCall(url: String) : Call {

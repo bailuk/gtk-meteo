@@ -1,11 +1,11 @@
-package controler
+package controller
 
 import ch.bailu.gtk.gtk.Spinner
 import model.Model
 import org.mapsforge.core.model.LatLong
 import org.mapsforge.map.gtk.view.MapView
 
-object Controler {
+object Controller {
     var map : MapView? = null
     var spinner : Spinner? = null
 
@@ -42,18 +42,6 @@ object Controler {
         }
     }
 
-    private fun updateSpinner() {
-        var spinner = spinner
-
-        if (spinner is Spinner) {
-            if (RestClient.downloads > 0) {
-                spinner.start()
-            } else {
-                spinner.stop()
-            }
-        }
-    }
-
     fun loadModelFromFile() {
         Model.updateDays(Rest.days.json)
         Model.updatePlace(Rest.place.json)
@@ -65,29 +53,42 @@ object Controler {
     }
 
     fun search(search: String) {
-        val result = ArrayList<LatLong>()
-        Rest.search(search) {
-            if (it.ok) {
-                it.json.map("result") {
-                    var lat = 0.0
-                    var lon = 0.0
-                    it.string("lat") {
-                        lat = it.toDouble()
+        if (search.isNotEmpty()) {
+            val result = ArrayList<LatLong>()
+            Rest.search(search) { it ->
+                if (it.ok) {
+                    it.json.map("result") {
+                        var lat = 0.0
+                        var lon = 0.0
+                        it.string("lat") {
+                            lat = it.toDouble()
+                        }
+                        it.string("lon") {
+                            lon = it.toDouble()
+                        }
+                        result.add(LatLong(lat, lon))
                     }
-                    it.string("lon") {
-                        lon = it.toDouble()
+
+                    if (result.size > 0) {
+                        withMap { it.model.mapViewPosition.center = result.first() }
                     }
-                    result.add(LatLong(lat, lon))
                 }
-
-                System.out.println(result.size)
-
-                if (result.size > 0) {
-                    withMap { it.model.mapViewPosition.center = result.first() }
-                }
+                updateSpinner()
             }
             updateSpinner()
         }
-        updateSpinner()
+    }
+
+
+    private fun updateSpinner() {
+        var spinner = spinner
+
+        if (spinner is Spinner) {
+            if (RestClient.downloads > 0) {
+                spinner.start()
+            } else {
+                spinner.stop()
+            }
+        }
     }
 }

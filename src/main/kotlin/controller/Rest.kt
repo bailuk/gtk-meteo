@@ -1,14 +1,14 @@
-package controler
+package controller
 
+import model.Config
 import org.mapsforge.core.model.LatLong
-import java.io.File
 
 // https://api.met.no/weatherapi/locationforecast/2.0/documentation
 
 object Rest {
-    var days   = RestClient(File("test-days.json"))
-    var place  = RestClient(File("test-place.json"))
-    var search = RestClient(File("test-search.json"),"{\"result\":","}")
+    var days   = RestClient(Config.getJsonFile("days"))
+    var place  = RestClient(Config.getJsonFile("place"))
+    var search = RestClient(Config.getJsonFile("search"),"{\"result\":","}")
 
     fun savePlace(center: LatLong, observer: (RestClient)->Unit) {
         val url = "https://nominatim.openstreetmap.org/reverse"

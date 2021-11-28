@@ -27,6 +27,8 @@ tasks.test {
 dependencies {
     implementation("org.mapsforge:mapsforge-map-reader:0.15.0")
     implementation("org.mapsforge:mapsforge-map-gtk:master-SNAPSHOT")
+    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 }
 
 
