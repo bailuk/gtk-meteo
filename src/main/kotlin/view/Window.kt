@@ -23,19 +23,23 @@ class Window(app: Application) {
 
         Controller.map = map.mapView
 
+        window.title = Config.appTitle
         window.titlebar = header.headerBar
-        window.icon = IconMap.getPixbuf(Config.appIcon, 128)
+        //window.icon = IconMap.getPixbuf(Config.appIcon, 128)
 
-        box.packStart(place.box, GTK.FALSE, GTK.TRUE, 2)
+        box.append(place.box)
 
-        box.packStart(days.icons, GTK.FALSE, GTK.TRUE, 2)
-        box.packStart(search.box, GTK.FALSE, GTK.TRUE, 0)
-        box.packStart(map.mapView.drawingArea, GTK.TRUE, GTK.TRUE, 0)
-        box.packEnd(status.box, GTK.FALSE, GTK.TRUE, 0)
+        box.append(days.icons)
+        box.append(search.box)
+        box.append(map.mapView.drawingArea)
+        map.mapView.drawingArea.vexpand = GTK.TRUE
+        map.mapView.drawingArea.hexpand = GTK.TRUE
+
+        box.append(status.box)
 
         window.setDefaultSize(720/2,1440/2)
 
-        window.add(box)
+        window.child =box
         window.onShow {
             map.initModel()
             Controller.loadModelFromFile()
@@ -45,6 +49,6 @@ class Window(app: Application) {
             exitProcess(0)
         }
 
-        window.showAll()
+        window.show()
     }
 }

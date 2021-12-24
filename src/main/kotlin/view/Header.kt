@@ -10,20 +10,15 @@ class Header() {
     val headerBar = HeaderBar()
 
     init {
-        headerBar.showCloseButton = GTK.TRUE
-        headerBar.title = Config.appTitle
+        headerBar.showTitleButtons = GTK.TRUE
 
-        val zoomIn = Button()
-        val zoomOut = Button()
-        val update = Button()
+        val zoomIn = Button.newFromIconNameButton(Str("zoom-in-symbolic"))
+        val zoomOut = Button.newFromIconNameButton(Str("zoom-out-symbolic"))
+        val update = Button.newFromIconNameButton(Str("view-refresh-symbolic"))
 
         zoomIn.onClicked  { Controller.zoomIn()      }
         zoomOut.onClicked { Controller.zoomOut()     }
         update.onClicked  { Controller.loadModelFromEndpoint() }
-
-        zoomIn.image  = Image.newFromIconNameImage(Str("zoom-in-symbolic"), IconSize.BUTTON)
-        zoomOut.image = Image.newFromIconNameImage(Str("zoom-out-symbolic"), IconSize.BUTTON)
-        update.image  = Image.newFromIconNameImage(Str("view-refresh-symbolic"), IconSize.BUTTON)
 
         headerBar.packStart(zoomIn)
         headerBar.packStart(zoomOut)

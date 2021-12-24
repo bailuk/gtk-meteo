@@ -5,6 +5,7 @@ import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Image
 import ch.bailu.gtk.gtk.Label
 import ch.bailu.gtk.gtk.Orientation
+import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
 import model.DayModel
 
@@ -12,17 +13,19 @@ class Day {
 
     val box = Box(Orientation.VERTICAL, 0)
 
-    private val day = Label(null)
+    private val day = Label(Str(CPointer.NULL))
     private val icon = Image()
-    private val min = Label(null)
-    private val max = Label(null)
+    private val min = Label(Str(CPointer.NULL))
+    private val max = Label(Str(CPointer.NULL))
 
 
     init {
-        box.packStart(day, GTK.FALSE, GTK.TRUE, 0)
-        box.packStart(icon, GTK.FALSE, GTK.TRUE, 0)
-        box.packStart(min, GTK.FALSE, GTK.TRUE, 0)
-        box.packStart(max, GTK.FALSE, GTK.TRUE, 0)
+        box.append(day)
+        box.append(icon)
+        icon.hexpand = GTK.TRUE
+        icon.setSizeRequest(50,50)
+        box.append(min)
+        box.append(max)
     }
 
     fun update(day: DayModel) {

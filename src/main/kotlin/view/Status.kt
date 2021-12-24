@@ -20,15 +20,15 @@ class Status {
         addLabel(Config.metLicense)
         addLabel(Config.osmLicense)
 
-        box.packEnd(spinner, GTK.FALSE, GTK.TRUE,0)
-        box.packStart(copy, GTK.TRUE, GTK.TRUE, 0)
+        box.append(spinner)
+        box.append(copy)
         Controller.spinner = spinner
     }
 
     private fun addLabel(text: Str) {
         val label = Label(text)
 
-        copy.packStart(label, GTK.FALSE, GTK.TRUE,0)
+        copy.append(label)
         label.useMarkup = GTK.TRUE
         label.useMarkup = GTK.TRUE
         label.xalign = 0f

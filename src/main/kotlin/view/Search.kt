@@ -1,10 +1,6 @@
 package view
 
-import ch.bailu.gtk.GTK
-import ch.bailu.gtk.gtk.Box
-import ch.bailu.gtk.gtk.Button
-import ch.bailu.gtk.gtk.Orientation
-import ch.bailu.gtk.gtk.SearchEntry
+import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.type.Str
 import controller.Controller
 
@@ -21,15 +17,15 @@ class Search {
         button.marginTop = 5
         entry.marginBottom = 5
         entry.marginTop = 5
-        box.packStart(entry, GTK.TRUE, GTK.TRUE, 5)
-        box.packStart(button, GTK.FALSE, GTK.TRUE, 5)
+        box.append(entry)
+        box.append(button)
 
         entry.onActivate {
-            Controller.search(entry.text.toString())
+            Controller.search(Editable(entry.cast()).text.toString())
         }
 
         button.onClicked {
-            Controller.search(entry.text.toString())
+            Controller.search(Editable(entry.cast()).text.toString())
         }
     }
 }

@@ -14,9 +14,9 @@ class Days {
         for (i in 1 .. 6) {
             val day = Day()
             days.add(day)
-            icons.packStart(day.box, GTK.FALSE, GTK.TRUE, 2)
+            icons.append(day.box)
         }
-        icons.showAll()
+        icons.show()
 
         Model.observeDays {
             clearDays()

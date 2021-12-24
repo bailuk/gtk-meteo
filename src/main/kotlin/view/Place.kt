@@ -3,6 +3,7 @@ package view
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.pango.EllipsizeMode
+import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
 import controller.Controller
 import model.Model
@@ -11,13 +12,11 @@ class Place {
     val box = Box(Orientation.HORIZONTAL,0)
 
     init {
-        val label = Label(null)
-        val button = Button()
+        val label = Label(Str(CPointer.NULL))
+        val button = Button.newFromIconNameButton(Str("mark-location-symbolic"))
 
-        button.image = Image.newFromIconNameImage(Str("mark-location-symbolic"), IconSize.BUTTON)
-
-        box.packStart(label, GTK.TRUE, GTK.TRUE,2)
-        box.packEnd(button, GTK.FALSE, GTK.TRUE, 2)
+        box.append(label)
+        box.append(button)
 
         label.useMarkup = GTK.TRUE
         label.xalign = 0f
