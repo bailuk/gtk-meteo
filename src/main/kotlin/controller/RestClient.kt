@@ -2,20 +2,15 @@ package controller
 
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.glib.Glib
-import ch.bailu.gtk.type.Pointer
-import com.google.gson.Gson
 import model.Config
 import okhttp3.*
 import parser.Json
-import parser.JsonMap
 import java.io.File
 import java.io.IOException
 
 class RestClient(val file: File, private val start: String = "", private val end : String = "") {
     private val client = OkHttpClient()
     private var call = getCall("http://localhost")
-
-    private val emitter = ch.bailu.gtk.Callback.EmitterID()
 
     var json = Json.parse(file)
         private set
@@ -61,7 +56,7 @@ class RestClient(val file: File, private val start: String = "", private val end
         Glib.idleAdd({
             observer(this@RestClient)
             GTK.FALSE
-        }, emitter)
+        }, null)
 
     }
 
