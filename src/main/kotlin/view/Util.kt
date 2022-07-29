@@ -7,12 +7,12 @@ object Util {
     fun setText(label: Label, text: String) {
         val old = label.text
         label.text = Str(text)
-        old.destroy()
+        // TODO move to Refs: old.destroy()
     }
 
     fun setMarkup(label: Label, markup: String) {
         val old = label.text
         label.setMarkup(Str(markup))
-        old.destroy()
+        // TODO move to Refs: old.destroy()
     }
 }
