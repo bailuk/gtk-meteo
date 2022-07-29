@@ -2,7 +2,7 @@ plugins {
     application
 
     // https://kotlinlang.org/docs/gradle.html#targeting-the-jvm
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "1.7.10"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -28,8 +28,8 @@ tasks.test {
 dependencies {
     implementation("org.mapsforge:mapsforge-map-reader:0.15.0")
     implementation("org.mapsforge:mapsforge-map-gtk:SNAPSHOT")
-    implementation("com.google.code.gson:gson:2.8.9")
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
 }
 
 
