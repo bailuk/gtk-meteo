@@ -27,7 +27,7 @@ tasks.test {
 
 dependencies {
     implementation("org.mapsforge:mapsforge-map-reader:0.15.0")
-    implementation("org.mapsforge:mapsforge-map-gtk:master-SNAPSHOT")
+    implementation("org.mapsforge:mapsforge-map-gtk:SNAPSHOT")
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
 }
@@ -50,9 +50,6 @@ val fatJar = task("fatJar", type = Jar::class) {
     manifest {
         attributes["Main-Class"] = appMainClass
     }
-    from(configurations.runtimeClasspath.get().map({ if (it.isDirectory) it else zipTree(it) }))
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     with(tasks.jar.get() as CopySpec)
 }
-
-
-
