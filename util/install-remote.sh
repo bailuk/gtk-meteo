@@ -29,7 +29,6 @@ scp  src/main/resources/svg/app-icon.svg "${remote}:${data}/${app}.svg" || exit 
 
 ssh "${remote}" "cat > ${desktop}" << EOF
 [Desktop Entry]
-Version=1.0
 Type=Application
 Terminal=false
 Exec=java -jar ${data}/${app}.jar

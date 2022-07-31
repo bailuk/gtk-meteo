@@ -1,10 +1,14 @@
 package view
 
 import ch.bailu.gtk.GTK
-import ch.bailu.gtk.gtk.*
+import ch.bailu.gtk.gtk.Box
+import ch.bailu.gtk.gtk.Button
+import ch.bailu.gtk.gtk.Label
+import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.pango.EllipsizeMode
 import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
+import config.Layout
 import controller.Controller
 import model.Model
 
@@ -13,19 +17,31 @@ class Place {
 
     init {
         val label = Label(Str(CPointer.NULL))
-        val button = Button.newFromIconNameButton(Str("mark-location-symbolic"))
 
         box.append(label)
-        box.append(button)
+        box.append(Label(Str.NULL).apply { hexpand =GTK.TRUE})
+        box.append(Button.newFromIconNameButton(Str("view-refresh-symbolic")).apply {
+            marginTop = Layout.margin
+            marginBottom = Layout.margin
+            marginEnd = Layout.margin / 2
+            onClicked {
+                println("reload weather info")
+            }
+        })
+        box.append(Button.newFromIconNameButton(Str("find-location-symbolic")).apply {
+            marginEnd = Layout.margin
+            marginTop = Layout.margin
+            marginBottom = Layout.margin
+            onClicked {
+                Controller.showPlace()
+            }
+        })
 
         label.useMarkup = GTK.TRUE
         label.xalign = 0f
         label.ellipsize = EllipsizeMode.END
-
-
-        button.onClicked {
-            Controller.showPlace()
-        }
+        label.marginStart = Layout.margin
+        label.marginEnd = Layout.margin
 
         Model.observeDays {
             label.tooltipText = Str(it.days.getLabel())

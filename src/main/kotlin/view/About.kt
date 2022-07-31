@@ -3,17 +3,17 @@ package view
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.gtk.Window
+import config.Strings
 import lib.IconMap
-import Config
 
 object About {
     fun show(window: Window) {
         AboutDialog().apply {
             logo = IconMap.getPaintable("app-icon", 100)
-            programName = Config.appTitle
-            version = Config.version
-            website = Config.website
-            copyright = Config.copyright
+            programName = Strings.appTitle
+            version = Strings.version
+            website = Strings.website
+            copyright = Strings.copyright
             licenseType = License.MIT_X11
             titlebar = createHeaderBar(this)
             transientFor = window

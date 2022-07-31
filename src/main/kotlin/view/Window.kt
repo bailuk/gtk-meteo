@@ -1,11 +1,9 @@
 package view
 
-import Config
-import ch.bailu.gtk.GTK
-import ch.bailu.gtk.gtk.Application
-import ch.bailu.gtk.gtk.ApplicationWindow
-import ch.bailu.gtk.gtk.Box
-import ch.bailu.gtk.gtk.Orientation
+import ch.bailu.gtk.gtk.*
+import config.CSS
+import config.Layout
+import config.Strings
 import controller.Controller
 import kotlin.system.exitProcess
 
@@ -17,23 +15,26 @@ class Window(app: Application) {
         val days = Days()
         val place = Place()
         val header = Header(window)
-        val search = Search()
         val map = Map()
+        val overlay = Overlay()
 
         Controller.map = map.mapView
+        overlay.child = map.mapView.drawingArea
 
-        window.title = Config.appTitle
+        window.title = Strings.appTitle
         window.titlebar = header.headerBar
 
+        CSS.addStyleProvider(window)
         box.append(place.box)
 
         box.append(days.icons)
-        box.append(search.box)
-        box.append(map.mapView.drawingArea)
-        map.mapView.drawingArea.vexpand = GTK.TRUE
-        map.mapView.drawingArea.hexpand = GTK.TRUE
+        overlay.addOverlay(Search().box)
+        overlay.addOverlay(Navigation().box)
+        overlay.addOverlay(Select().box)
+        overlay.addOverlay(Spinner().box)
+        box.append(overlay)
 
-        window.setDefaultSize(Config.window_width, Config.window_height)
+        window.setDefaultSize(Layout.window_width, Layout.window_height)
 
         window.child =box
         window.onShow {

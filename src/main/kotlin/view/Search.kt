@@ -2,30 +2,34 @@ package view
 
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.type.Str
+import config.Layout
 import controller.Controller
 
 class Search {
-    val box = Box(Orientation.HORIZONTAL, 0)
+    val box = Box(Orientation.HORIZONTAL, 0).apply {
+        halign = Align.START
+        valign = Align.START
 
-
-    init {
         val entry = SearchEntry()
-        val button = Button()
+        append(entry.apply {
+            marginTop = Layout.margin
+            marginStart = Layout.margin
+            marginEnd = Layout.margin / 2
 
-        button.label = Str("Find")
-        button.marginBottom = 5
-        button.marginTop = 5
-        entry.marginBottom = 5
-        entry.marginTop = 5
-        box.append(entry)
-        box.append(button)
+            onActivate {
+                Controller.search(Editable(cast()).text.toString())
+            }
+        })
+        append(Button.newFromIconNameButton(Str("edit-find-symbolic")).apply {
+            marginTop = Layout.margin
+            marginEnd = Layout.margin / 2
+            onClicked {
+                Controller.search(Editable(entry.cast()).text.toString())
+            }
+        })
+        append(Button.newFromIconNameButton(Str("view-more-symbolic")).apply {
+            marginTop = Layout.margin
+        })
 
-        entry.onActivate {
-            Controller.search(Editable(entry.cast()).text.toString())
-        }
-
-        button.onClicked {
-            Controller.search(Editable(entry.cast()).text.toString())
-        }
     }
 }

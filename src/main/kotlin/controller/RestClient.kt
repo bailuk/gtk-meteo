@@ -2,7 +2,7 @@ package controller
 
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.glib.Glib
-import Config
+import config.Strings
 import okhttp3.*
 import parser.Json
 import java.io.File
@@ -66,7 +66,7 @@ class RestClient(val file: File, private val start: String = "", private val end
 
     private fun getRequest(url: String) : Request {
         return Request.Builder()
-                .url(url).header("User-Agent", Config.userAgent)
+                .url(url).header("User-Agent", Strings.userAgent)
                 .build()
     }
 }

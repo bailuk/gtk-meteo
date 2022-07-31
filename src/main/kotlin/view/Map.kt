@@ -10,7 +10,6 @@ import org.mapsforge.map.layer.download.tilesource.OpenStreetMapMapnik
 class Map {
     val mapView = MapView()
 
-
     init {
         OpenStreetMapMapnik.INSTANCE.userAgent = "mapsforge-samples-gtk"
     }
