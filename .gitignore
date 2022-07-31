@@ -1,18 +1,19 @@
+# Android
+*.apk
+*.ap_
+*.dex
 
-# From https://gist.github.com/dedunumax/54e82214715e35439227
-
-
-## Java
+# Java
 .mtj.tmp/
 *.class
 *.jar
 *.war
 *.ear
 *.nar
+*.hprof
 hs_err_pid*
 
-
-## Maven
+# Maven
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -25,16 +26,15 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-
-## Gradle
+# Gradle
 build/
 .gradle
 .gradletasknamecache
 gradle-app.setting
 !gradle-wrapper.jar
+local.properties
 
-
-## IntelliJ
+# IntelliJ
 out/
 .idea/
 .idea_modules/
@@ -42,8 +42,7 @@ out/
 *.ipr
 *.iws
 
-
-## Eclipse
+# Eclipse
 .settings/
 bin/
 tmp/
@@ -54,12 +53,10 @@ tmp/
 *.bak
 *.swp
 *~.nib
-local.properties
 .loadpath
 .factorypath
 
-
-## NetBeans
+# NetBeans
 nbproject/private/
 nbbuild/
 dist/
@@ -67,15 +64,13 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 
-
-## Visual Studio Code
+# Visual Studio Code
 .vscode/
 .code-workspace
 
+# Mac OS X / Windows
+*.DS_Store
+Thumbs.db
 
-## OS X
-.DS_Store
-
-
-## Development
+# Development
 todo/
