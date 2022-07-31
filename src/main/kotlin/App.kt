@@ -1,6 +1,5 @@
 import ch.bailu.gtk.gtk.Application
 import ch.bailu.gtk.type.Strs
-import model.Config
 import view.Window
 
 fun main(args: Array<String>) {

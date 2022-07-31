@@ -1,6 +1,6 @@
 package controller
 
-import model.Config
+import Config
 import org.mapsforge.core.model.LatLong
 
 // https://api.met.no/weatherapi/locationforecast/2.0/documentation

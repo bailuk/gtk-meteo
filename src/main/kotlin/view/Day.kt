@@ -7,6 +7,7 @@ import ch.bailu.gtk.gtk.Label
 import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
+import lib.IconMap
 import model.DayModel
 
 class Day {

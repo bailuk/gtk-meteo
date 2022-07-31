@@ -2,7 +2,7 @@ package controller
 
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.glib.Glib
-import model.Config
+import Config
 import okhttp3.*
 import parser.Json
 import java.io.File

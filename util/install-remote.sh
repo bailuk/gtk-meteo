@@ -25,7 +25,7 @@ data="${home}/.config/${app}"
 
 ssh $remote "test -d ${data} || mkdir ${data}" || exit 1
 scp  build/libs/${app}-all.jar "${remote}:${data}/${app}.jar"  || exit 1
-scp  src/main/resources/icon.svg "${remote}:${data}/${app}.svg" || exit 1
+scp  src/main/resources/svg/app-icon.svg "${remote}:${data}/${app}.svg" || exit 1
 
 ssh "${remote}" "cat > ${desktop}" << EOF
 [Desktop Entry]
