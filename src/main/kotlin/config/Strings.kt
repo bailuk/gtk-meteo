@@ -22,4 +22,6 @@ object Strings {
     )
 
     val website = Str("https://github.com/bailuk/gtk-meteo")
+
+    val linked = Str("linked")
 }

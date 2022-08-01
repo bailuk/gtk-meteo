@@ -35,8 +35,12 @@ object Controller {
         withMap { it.model.mapViewPosition.zoomOut() }
     }
 
-    fun withMap(call : (MapView)->Unit) {
-        var map = map
+    fun centerMap(latLong: LatLong) {
+        withMap { it.model.mapViewPosition.center = latLong }
+    }
+
+    private fun withMap(call : (MapView)->Unit) {
+        val map = map
         if (map is MapView) {
             call(map)
         }
@@ -45,32 +49,21 @@ object Controller {
     fun loadModelFromFile() {
         Model.updateDays(Rest.days.json)
         Model.updatePlace(Rest.place.json)
+        Model.updateSearchResult(Rest.search.json)
         showPlace()
     }
 
     fun showPlace() {
-        withMap { it.model.mapViewPosition.center = LatLong(Model.days.getLatitude(), Model.days.getLongitude()) }
+        centerMap(LatLong(Model.days.getLatitude(), Model.days.getLongitude()))
     }
 
     fun search(search: String) {
         if (search.isNotEmpty()) {
-            val result = ArrayList<LatLong>()
             Rest.search(search) { it ->
                 if (it.ok) {
-                    it.json.map("result") {
-                        var lat = 0.0
-                        var lon = 0.0
-                        it.string("lat") {
-                            lat = it.toDouble()
-                        }
-                        it.string("lon") {
-                            lon = it.toDouble()
-                        }
-                        result.add(LatLong(lat, lon))
-                    }
-
-                    if (result.size > 0) {
-                        withMap { it.model.mapViewPosition.center = result.first() }
+                    Model.updateSearchResult(it.json)
+                    Model.search.withFirst { _, latLong ->
+                        centerMap(latLong)
                     }
                 }
                 updateSpinner()
@@ -81,7 +74,7 @@ object Controller {
 
 
     private fun updateSpinner() {
-        var spinner = spinner
+        val spinner = spinner
 
         if (spinner is Spinner) {
             if (RestClient.downloads > 0) {

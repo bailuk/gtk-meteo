@@ -28,7 +28,7 @@ class Window(app: Application) {
         box.append(place.box)
 
         box.append(days.icons)
-        overlay.addOverlay(Search().box)
+        overlay.addOverlay(Search(app).box)
         overlay.addOverlay(Navigation().box)
         overlay.addOverlay(Select().box)
         overlay.addOverlay(Spinner().box)
