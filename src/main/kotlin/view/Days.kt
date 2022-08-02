@@ -1,9 +1,9 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Orientation
-import model.DayModel
+import controller.Controller
+import model.DaysModel
 import model.Model
 
 class Days {
@@ -18,9 +18,11 @@ class Days {
         }
         icons.show()
 
-        Model.observeDays {
-            clearDays()
-            updateDays()
+        Model.observeDays { days, index ->
+            if (Controller.isSelectedSlot(index)) {
+                clearDays()
+                updateDays(days)
+            }
         }
     }
 
@@ -28,12 +30,10 @@ class Days {
         days.forEach{ it.clear() }
     }
 
-    private fun updateDays() {
+    private fun updateDays(daysModel: DaysModel) {
         try {
-            var index = 0
-            days.forEach {
-                it.update(Model.days.days[index])
-                index++
+             days.forEachIndexed { index, day ->
+                 day.update(daysModel.days[index])
             }
         } catch (e: Exception) {}
     }

@@ -38,7 +38,6 @@ class RestClient(val file: File, private val start: String = "", private val end
                 callBack(observer)
             }
 
-
             override fun onResponse(call: Call, response: Response) {
                 downloads--
                 ok = true

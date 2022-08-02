@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>530</y>
+      <w>410</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>RestClient
+--
++ constructor(file: File, start: String, end: String)
++ json: JsonMap
++ ok: Boolean
++ download(url: String, observer: (RestClient)-&gt;Unit)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>290</y>
+      <w>310</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Rest
+--
++ days: RestClient
++ place: Restclient
++ search: RestClient
++ savePlace(center: LatLong, observer)
++ saveDays(center: LatLong, observer)
++ search(search: String, observer)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1460</x>
+      <y>30</y>
+      <w>230</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
++ loadModelFromEndpoint()
++ loadModelFromFile()
++ zoomIn()
++ zoomOut()
++ centerMap()
++ showPlace()
++ search(search: String)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>350</y>
+      <w>380</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>DayModel
+--
++tempMin: float
++tempMax: float
++symbol: String
++weekDay: String
+--
++isSameDay(dateTime: ZonedDateTime)
++update(date:Time: ZonedDateTime, data: JsonMap)
++updateSymbol(map: JsonMap)
++toString()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>620</y>
+      <w>290</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>DaysModel
+--
++days: ArrayList&lt;DayModel&gt;
+--
++getLatitude(): Double
++getLongitude(): Double
++getLabel(): String
++parse(map: JsonMap)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>220</x>
+      <y>30</y>
+      <w>500</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>Model
+--
++days: DaysModel
++place: PlaceModel
++search: SearchModel
+--
++observePlace(observer: (Model) -&gt; Unit)
++observeDays(observer: (Model) -&gt; Unit)
++observeSearch(observer: (Model) -&gt; Unit)
++updateDays(place: JsonMap)
++updatePlace(place: JsonMap)
++updateSearchResult(place: JsonMap)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>730</x>
+      <y>350</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>PlaceModel
+--
++city: String
++country: String
++markup: String
+--
++parse(place: JsonMap)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>10</x>
+      <y>350</y>
+      <w>300</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>SearchModel
+--
++parse(json: JsonMap)
++withFirst(cb: (String, LatLong) -&gt; Unit)
++forEach(cb: (String, LatLong) -&gt; Unit)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>60</y>
+      <w>80</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0;10.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>80</y>
+      <w>100</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>250</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>520</y>
+      <w>30</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1680</x>
+      <y>60</y>
+      <w>80</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1760</x>
+      <y>330</y>
+      <w>80</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>1020</x>
+      <y>150</y>
+      <w>310</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=.
+User Interface
+(View)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1320</x>
+      <y>110</y>
+      <w>160</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>140.0;10.0;80.0;10.0;80.0;180.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>60</y>
+      <w>330</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>310.0;230.0;150.0;230.0;150.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>870</x>
+      <y>240</y>
+      <w>130</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>observe + get</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>30</y>
+      <w>770</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;750.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1200</x>
+      <y>50</y>
+      <w>180</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>update(json: JsonMap)</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

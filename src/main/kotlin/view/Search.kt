@@ -35,7 +35,7 @@ class Search(private val app: Application) {
             iconName = Str("view-more-symbolic")
             Model.observeSearch {
                 this.menuModel = MenuModelBuilder().apply {
-                    it.search.forEach { name, latLong ->
+                    it.forEach { name, latLong ->
                         this.label(name.ellipsize(30)) {
                             Controller.centerMap(latLong)
                         }

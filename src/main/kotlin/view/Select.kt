@@ -12,11 +12,11 @@ class Select {
     val box = Box(Orientation.HORIZONTAL, 0).apply {
         halign = Align.END
         valign = Align.START
+        marginEnd = Layout.margin
+        marginTop = Layout.margin
 
         append(Button.newFromIconNameButton(Str("send-to-symbolic")).apply {
-            onClicked  { Controller.loadModelFromEndpoint() }
-            marginEnd = Layout.margin / 2
-            marginTop = Layout.margin
+            onClicked  { Controller.addMapCenterToModelAndLoad() }
         })
     }
 }

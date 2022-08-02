@@ -20,14 +20,13 @@ class PlaceModel {
     }
 
     private fun setMarkup() {
-        if (city == "") {
-            markup = country
+        markup = if (city == "") {
+            country
         } else if (country == "") {
-            markup = city
+            city
         } else {
-            markup = "<b>${city}</b> ${country}"
+            "<b>${city}</b> ${country}"
         }
-
     }
 
     private fun clearNames() {

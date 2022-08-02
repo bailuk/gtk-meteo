@@ -6,9 +6,13 @@ import ch.bailu.gtk.gtk.HeaderBar
 import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.type.Str
 import config.Strings
+import controller.Controller
 
 class Header(window: Window) {
     val headerBar = HeaderBar()
+
+    private val add = Button.newFromIconNameButton(Str("list-add-symbolic"))
+    private val remove = Button.newFromIconNameButton(Str("list-remove-symbolic"))
 
     init {
         headerBar.showTitleButtons = GTK.TRUE
@@ -16,22 +20,30 @@ class Header(window: Window) {
         val about = Button.newWithLabelButton(Strings.about)
         about.onClicked   { About.show(window) }
 
-        val add = Button.newFromIconNameButton(Str("list-add-symbolic"))
-        val remove = Button.newFromIconNameButton(Str("list-remove-symbolic"))
 
-        remove.visible = GTK.FALSE
         add.onClicked {
-            add.visible = GTK.FALSE
-            remove.visible = GTK.TRUE
+            updateBookmarkButtons()
         }
+
         remove.onClicked {
-            remove.visible = GTK.FALSE
-            add.visible = GTK.TRUE
+            updateBookmarkButtons()
         }
+
         headerBar.packStart(add)
         headerBar.packStart(remove)
 
         headerBar.packEnd(Button.newFromIconNameButton(Str("open-menu-symbolic")))
-        headerBar.packEnd(Button.newFromIconNameButton(Str("go-next-symbolic")))
+        headerBar.packEnd(Button.newFromIconNameButton(Str("go-next-symbolic")).apply {
+            onClicked {
+                Controller.selectNextSlot()
+            }
+        })
+
+        updateBookmarkButtons()
+    }
+
+    private fun updateBookmarkButtons() {
+        remove.visible = GTK.TRUE
+        add.visible = GTK.FALSE
     }
 }

@@ -25,7 +25,7 @@ class Place {
             marginBottom = Layout.margin
             marginEnd = Layout.margin / 2
             onClicked {
-                println("reload weather info")
+                Controller.updateSelectedSlot()
             }
         })
         box.append(Button.newFromIconNameButton(Str("find-location-symbolic")).apply {
@@ -43,12 +43,16 @@ class Place {
         label.marginStart = Layout.margin
         label.marginEnd = Layout.margin
 
-        Model.observeDays {
-            label.tooltipText = Str(it.days.getLabel())
+        Model.observeDays { days, index ->
+            if (Controller.isSelectedSlot(index)) {
+                label.tooltipText = Str(days.getLabel())
+            }
         }
 
-        Model.observePlace {
-            Util.setMarkup(label, it.place.markup)
+        Model.observePlace { place, index ->
+            if (Controller.isSelectedSlot(index)) {
+                Util.setMarkup(label, place.markup)
+            }
         }
     }
 

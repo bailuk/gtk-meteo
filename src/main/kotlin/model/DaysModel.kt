@@ -1,5 +1,6 @@
 package model
 
+import org.mapsforge.core.model.LatLong
 import parser.JsonMap
 import java.time.ZonedDateTime
 import java.util.ArrayList
@@ -7,7 +8,11 @@ import java.util.ArrayList
 class DaysModel {
 
     val days = ArrayList<DayModel>()
-    val coords = ArrayList<Double>()
+    private val coords = ArrayList<Double>()
+
+    fun getLatLong() : LatLong {
+        return LatLong(getLatitude(), getLongitude())
+    }
 
     fun getLatitude(): Double {
         return if (coords.size > 1) coords[1] else 0.0
@@ -17,7 +22,7 @@ class DaysModel {
         return if (coords.size > 0) coords[0] else 0.0
     }
 
-    fun getAltitude(): Double {
+    private fun getAltitude(): Double {
         return if (coords.size > 2) coords[2] else 0.0
     }
 
@@ -53,5 +58,5 @@ class DaysModel {
         }
     }
 
-    fun Double.format(digits: Int) = "%.${digits}f".format(this)
+    private fun Double.format(digits: Int) = "%.${digits}f".format(this)
 }

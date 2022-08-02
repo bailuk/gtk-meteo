@@ -4,7 +4,7 @@ import config.Strings.userAgent
 import java.io.File
 
 object Files {
-    private val configDirectory =
+    val configDirectory =
         File(System.getProperty("user.home") + "/.config/$userAgent/")
 
     init {

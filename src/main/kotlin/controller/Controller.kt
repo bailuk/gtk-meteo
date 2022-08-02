@@ -6,27 +6,40 @@ import org.mapsforge.core.model.LatLong
 import org.mapsforge.map.gtk.view.MapView
 
 object Controller {
-    var map : MapView? = null
-    var spinner : Spinner? = null
+    private val rest = Rest()
+    private val slot = Slot()
 
-    fun loadModelFromEndpoint() {
+    var map: MapView? = null
+    var spinner: Spinner? = null
+
+    fun addMapCenterToModelAndLoad() {
         withMap {
-            val pos = it.model.mapViewPosition.center
-            Rest.saveDays(pos) {
-                if (it.ok) {
-                    Model.updateDays(it.json)
-                }
+            val latLong = it.model.mapViewPosition.center
+
+            selectSlotFor(latLong)
+
+            rest.saveDays(slot.selected, latLong)  { restClient ->
+                if (restClient.ok) Model.updateDays(restClient.json, slot.selected)
                 updateSpinner()
             }
 
-            Rest.savePlace(pos) {
-                if (it.ok) Model.updatePlace(it.json)
+            rest.savePlace(slot.selected, latLong) { restClient ->
+                if (restClient.ok) Model.updatePlace(restClient.json, slot.selected)
                 updateSpinner()
             }
             updateSpinner()
         }
     }
 
+    private fun selectSlotFor(latLong: LatLong) {
+        val found = Model.find(latLong)
+        if (found > -1) {
+            slot.select(found)
+        } else {
+            slot.selectNextFreeOrOldestSlot()
+        }
+        rest.setSlots(slot)
+    }
     fun zoomIn() {
         withMap { it.model.mapViewPosition.zoomIn() }
     }
@@ -39,7 +52,7 @@ object Controller {
         withMap { it.model.mapViewPosition.center = latLong }
     }
 
-    private fun withMap(call : (MapView)->Unit) {
+    private fun withMap(call: (MapView) -> Unit) {
         val map = map
         if (map is MapView) {
             call(map)
@@ -47,19 +60,26 @@ object Controller {
     }
 
     fun loadModelFromFile() {
-        Model.updateDays(Rest.days.json)
-        Model.updatePlace(Rest.place.json)
-        Model.updateSearchResult(Rest.search.json)
+        rest.setSlots(slot)
+        rest.forEachDay { index, restClient ->
+            Model.updateDays(restClient.json, index)
+        }
+        rest.forEachPlace { index, restClient ->
+            Model.updatePlace(restClient.json, index)
+        }
+        Model.updateSearchResult(rest.search.json)
         showPlace()
     }
 
     fun showPlace() {
-        centerMap(LatLong(Model.days.getLatitude(), Model.days.getLongitude()))
+        Model.withDays(slot.selected) {
+            centerMap(it.getLatLong())
+        }
     }
 
     fun search(search: String) {
         if (search.isNotEmpty()) {
-            Rest.search(search) { it ->
+            rest.search(search) { it ->
                 if (it.ok) {
                     Model.updateSearchResult(it.json)
                     Model.search.withFirst { _, latLong ->
@@ -83,5 +103,22 @@ object Controller {
                 spinner.stop()
             }
         }
+    }
+
+    fun selectNextSlot() {
+        slot.selectNext()
+        Model.notify(slot.selected)
+    }
+
+    fun updateSelectedSlot() {
+        Model.withDays(slot.selected) { days->
+            rest.saveDays(slot.selected, days.getLatLong()) { rest ->
+                if (rest.ok) Model.updateDays(rest.json, slot.selected)
+            }
+        }
+    }
+
+    fun isSelectedSlot(index: Int): Boolean {
+        return slot.selected == index
     }
 }

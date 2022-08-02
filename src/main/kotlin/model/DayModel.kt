@@ -11,7 +11,7 @@ class DayModel(dateTime: ZonedDateTime) {
 
     var tempMin = 10000.0
     var tempMax = -10000.0
-    
+
     var symbol = ""
     val weekDay = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
 
@@ -60,6 +60,6 @@ class DayModel(dateTime: ZonedDateTime) {
     }
 
     override fun toString() : String {
-        return "${weekDay} ${symbol} ${tempMin} | ${tempMax}"
+        return "$weekDay $symbol $tempMin | $tempMax"
     }
 }
