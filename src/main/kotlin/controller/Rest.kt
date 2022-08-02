@@ -46,7 +46,6 @@ class Rest {
 
     private fun addSlot() {
         val id = days.size
-        println("Add slot: $id")
         days.add(RestClient(getJsonFile("days-$id")))
         place.add(RestClient(getJsonFile("place-$id")))
     }

@@ -3,22 +3,25 @@ package model
 import org.mapsforge.core.model.LatLong
 import parser.JsonMap
 import java.time.ZonedDateTime
-import java.util.ArrayList
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+
 
 class DaysModel {
 
     val days = ArrayList<DayModel>()
     private val coords = ArrayList<Double>()
+    private var updatedAt = ZonedDateTime.now()
 
     fun getLatLong() : LatLong {
         return LatLong(getLatitude(), getLongitude())
     }
 
-    fun getLatitude(): Double {
+    private fun getLatitude(): Double {
         return if (coords.size > 1) coords[1] else 0.0
     }
 
-    fun getLongitude(): Double {
+    private fun getLongitude(): Double {
         return if (coords.size > 0) coords[0] else 0.0
     }
 
@@ -26,8 +29,13 @@ class DaysModel {
         return if (coords.size > 2) coords[2] else 0.0
     }
 
-    fun getLabel(): String {
-        return "${getLatitude().format(2)}, ${getLongitude().format(2)}, ${getAltitude().format(0)}m"
+    fun getUpdatedAtLabel(): String {
+        val dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        return updatedAt.toLocalDateTime().format(dateTimeFormatter)
+    }
+
+    fun getLocationLabel(): String {
+        return "${getLatitude().format(3)}, ${getLongitude().format(3)}, ${getAltitude().format(0)}m"
     }
 
 
@@ -41,6 +49,11 @@ class DaysModel {
         }
 
         map.map("properties") {
+            it.map("meta") { meta->
+                meta.string("updated_at") { date ->
+                    updatedAt = ZonedDateTime.parse(date)
+                }
+            }
             it.map("timeseries") { sample ->
                 sample.string("time") { time ->
                     val date = ZonedDateTime.parse(time)
