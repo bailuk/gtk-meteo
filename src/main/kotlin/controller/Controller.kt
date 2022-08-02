@@ -110,6 +110,10 @@ object Controller {
         Model.notify(slot.selected)
     }
 
+    fun notifySelectedSlot() {
+        Model.notify(slot.selected)
+    }
+
     fun updateSelectedSlot() {
         Model.withDays(slot.selected) { days->
             rest.saveDays(slot.selected, days.getLatLong()) { rest ->

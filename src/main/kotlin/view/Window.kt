@@ -12,8 +12,9 @@ class Window(app: Application) {
 
     init {
         val box = Box(Orientation.VERTICAL, 0)
-        val days = Days()
         val place = Place()
+        val hours = Hours()
+        val days = Days(hours)
         val header = Header(window)
         val map = Map()
         val overlay = Overlay()
@@ -26,8 +27,9 @@ class Window(app: Application) {
 
         CSS.addStyleProvider(window)
         box.append(place.box)
-
         box.append(days.icons)
+        box.append(hours.scroller)
+
         overlay.addOverlay(Search(app).box)
         overlay.addOverlay(Navigation().box)
         overlay.addOverlay(Select().box)
