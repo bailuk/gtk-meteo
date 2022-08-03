@@ -127,4 +127,9 @@ object Controller {
     fun isSelectedSlot(index: Int): Boolean {
         return slot.selected == index
     }
+
+    fun selectSlot(index: Int) {
+        slot.select(index)
+        Model.notify(slot.selected)
+    }
 }

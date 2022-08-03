@@ -12,20 +12,30 @@ class PlaceModel {
     var markup = ""
         private set
 
+    private var nonMarkup = ""
 
     fun parse(place: JsonMap) {
         clearNames()
         setNames(place)
         setMarkup()
+        setNonMarkup()
+    }
+
+    private fun setNonMarkup() {
+        nonMarkup = getFullText()
     }
 
     private fun setMarkup() {
-        markup = if (city == "") {
+        markup = getFullText("<b>", "</b>")
+    }
+
+    private fun getFullText(tagO: String = "", tagC: String = ""): String {
+        return if (city == "") {
             country
         } else if (country == "") {
             city
         } else {
-            "<b>${city}</b> ${country}"
+            "${tagO}${city}${tagC} ${country}"
         }
     }
 
@@ -71,5 +81,9 @@ class PlaceModel {
                 city = it
             }
         }
+    }
+
+    override fun toString(): String {
+        return nonMarkup
     }
 }

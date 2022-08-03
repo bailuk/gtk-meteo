@@ -2,6 +2,7 @@ package model
 
 import org.mapsforge.core.model.LatLong
 import parser.JsonMap
+import view.Place
 
 object Model {
     private const val SAME_PLACE = 2500
@@ -17,6 +18,10 @@ object Model {
     fun withDays(index: Int, cb: (DaysModel) -> Unit) {
         val days = days.getOrNull(index)
         if (days is DaysModel) cb(days)
+    }
+
+    fun forEachPlace(cb: (index: Int, place: PlaceModel) -> Unit) {
+        place.forEachIndexed(cb)
     }
 
     private fun withPlace(index: Int, cb: (PlaceModel) -> Unit) {

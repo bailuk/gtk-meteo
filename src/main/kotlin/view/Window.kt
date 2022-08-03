@@ -15,7 +15,7 @@ class Window(app: Application) {
         val place = Place()
         val hours = Hours()
         val days = Days(hours)
-        val header = Header(window)
+        val header = Header(window, app)
         val map = Map()
         val overlay = Overlay()
 
