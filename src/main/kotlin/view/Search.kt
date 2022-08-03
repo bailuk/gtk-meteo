@@ -6,10 +6,11 @@ import config.Layout
 import config.Strings
 import controller.Controller
 import lib.extension.ellipsize
+import lib.menu.Actions
 import lib.menu.MenuModelBuilder
 import model.Model
 
-class Search(private val app: Application) {
+class Search(private val actions: Actions) {
     val box = Box(Orientation.HORIZONTAL, 0).apply {
         halign = Align.START
         valign = Align.START
@@ -40,7 +41,7 @@ class Search(private val app: Application) {
                             Controller.centerMap(latLong)
                         }
                     }
-                }.create(app)
+                }.create(actions)
             }
         })
     }

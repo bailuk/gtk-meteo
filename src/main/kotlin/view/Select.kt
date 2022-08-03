@@ -15,7 +15,7 @@ class Select {
         marginEnd = Layout.margin
         marginTop = Layout.margin
 
-        append(Button.newFromIconNameButton(Str("send-to-symbolic")).apply {
+        append(Button.newFromIconNameButton(Str("go-up-symbolic")).apply {
             onClicked  { Controller.addMapCenterToModelAndLoad() }
         })
     }

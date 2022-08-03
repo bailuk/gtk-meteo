@@ -2,7 +2,6 @@ package lib.menu;
 
 import java.util.ArrayList;
 
-import lib.Resources;
 import ch.bailu.gtk.GTK;
 import ch.bailu.gtk.gio.Menu;
 import ch.bailu.gtk.gio.MenuItem;
@@ -11,6 +10,8 @@ import ch.bailu.gtk.gtk.Application;
 import ch.bailu.gtk.type.Str;
 
 public class MenuModelBuilder {
+    private static final Str STR_CUSTOM = new Str("custom");
+
     private final ArrayList<Item> items = new ArrayList<>();
 
     public interface OnActivated {
@@ -31,7 +32,7 @@ public class MenuModelBuilder {
         public Item(String label) {
             this.label = label;
         }
-        abstract void appendTo(Menu menu, Actions actions, Resources res);
+        abstract void appendTo(Menu menu, Actions actions);
     }
 
     private class LabelItem extends Item {
@@ -42,9 +43,14 @@ public class MenuModelBuilder {
         }
 
         @Override
-        void appendTo(Menu menu, Actions actions, Resources res) {
-            menu.appendItem(new MenuItem(res.str(label), res.str("app." + actionId.get())));
+        void appendTo(Menu menu, Actions actions) {
+            var str = new Str(label);
+            var action = new Str("app." + actionId.get());
+
+            menu.appendItem(new MenuItem(str, action));
             actions.add(actionId.get(), parameter -> onSelected.onSelected());
+            str.destroy();
+            action.destroy();
         }
     }
 
@@ -54,11 +60,17 @@ public class MenuModelBuilder {
         }
 
         @Override
-        void appendTo(Menu menu, Actions actions, Resources res) {
-            var item = new MenuItem(res.str(label), res.str("app." + actionId.get()));
-            item.setAttribute(res.str("custom"), null);
-            item.setAttributeValue(res.str("custom"), Variant.newStringVariant(res.str(label)));
+        void appendTo(Menu menu, Actions actions) {
+            Str strLabel = new Str(label);
+            Str strAction = new Str("app." + actionId.get());
+
+            var item = new MenuItem(strLabel, strAction);
+            item.setAttribute(STR_CUSTOM, null);
+            item.setAttributeValue(STR_CUSTOM, Variant.newStringVariant(strLabel));
             menu.appendItem(item);
+
+            strLabel.destroy();
+            strAction.destroy();
         }
     }
 
@@ -74,8 +86,10 @@ public class MenuModelBuilder {
         }
 
         @Override
-        void appendTo(Menu menu, Actions actions, Resources res) {
-            menu.appendItem(new MenuItem(new Str(label), res.str("app." + actionId.get())));
+        void appendTo(Menu menu, Actions actions) {
+            var strActionId = new Str("app." + actionId.get());
+            menu.appendItem(new MenuItem(new Str(label), strActionId));
+            strActionId.destroy();
             actions.add(actionId.get(), parameter -> {
                 if (parameter != null) {
                     onChecked.onChecked(GTK.IS(parameter.getBoolean()));
@@ -95,8 +109,8 @@ public class MenuModelBuilder {
         }
 
         @Override
-        void appendTo(Menu menu, Actions actions, Resources res) {
-            menu.appendSubmenu(strLabel(), submenu.create(actions, res));
+        void appendTo(Menu menu, Actions actions) {
+            menu.appendSubmenu(strLabel(), submenu.create(actions));
         }
 
         public Str strLabel() {
@@ -113,8 +127,8 @@ public class MenuModelBuilder {
         }
 
         @Override
-        void appendTo(Menu menu, Actions actions, Resources res) {
-            menu.appendSection(strLabel(), submenu.create(actions, res));
+        void appendTo(Menu menu, Actions actions) {
+            menu.appendSection(strLabel(), submenu.create(actions));
         }
 
     }
@@ -135,7 +149,7 @@ public class MenuModelBuilder {
         }
 
         @Override
-        void appendTo(Menu menu, Actions actions, Resources res) {
+        void appendTo(Menu menu, Actions actions) {
             addItems(menu);
             addAction(actions);
         }
@@ -153,8 +167,12 @@ public class MenuModelBuilder {
 
         void addItems(Menu menu) {
             for (int i = 0; i< radios.size(); i++) {
-                var item = new MenuItem(new Str(radios.get(i)), new Str("app." + actionId.get(i)));
+                var strName = new Str(radios.get(i));
+                var strId =  new Str("app." + actionId.get(i));
+                var item = new MenuItem(strName, strId);
                 menu.appendItem(item);
+                strName.destroy();
+                strId.destroy();
             }
         }
     }
@@ -198,16 +216,14 @@ public class MenuModelBuilder {
 
     public Menu create(Application app) {
         Actions actions = new Actions(app);
-        Resources resources = new Resources();
-
-        return create(actions, resources);
+        return create(actions);
     }
 
-    public Menu create(Actions actions, Resources res) {
+    public Menu create(Actions actions) {
         final var result = new Menu();
 
         for (Item item : items) {
-            item.appendTo(result, actions, res);
+            item.appendTo(result, actions);
         }
         return result;
     }

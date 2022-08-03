@@ -2,7 +2,6 @@ package lib.menu;
 
 import javax.annotation.Nullable;
 
-import lib.Resources;
 import ch.bailu.gtk.GTK;
 import ch.bailu.gtk.gio.Action;
 import ch.bailu.gtk.gio.SimpleAction;
@@ -31,19 +30,19 @@ public class Actions {
     }
 
     public void add(String name, SimpleAction.OnActivate run) {
-        Resources res = new Resources();
-        var action = new SimpleAction(res.str(name), null);
+        var str = new Str(name);
+        var action = new SimpleAction(str, null);
         action.onActivate(run);
-        res.add(run);
-
-        actions.add(name, action, res);
+        actions.add(name, action);
+        str.destroy();
 
     }
 
     public void add(String name, boolean initial, SimpleAction.OnActivate run) {
-        Resources res = new Resources();
 
-        var action = SimpleAction.newStatefulSimpleAction(res.str(name), null, Variant.newBooleanVariant(GTK.IS(initial)));
+        var strName = new Str(name);
+        var action = SimpleAction.newStatefulSimpleAction(strName, null, Variant.newBooleanVariant(GTK.IS(initial)));
+        strName.destroy();
 
         var runWrapper = new SimpleAction.OnActivate() {
             @Override
@@ -54,16 +53,13 @@ public class Actions {
         };
 
         action.onActivate(runWrapper);
-        res.add(runWrapper);
-        res.add(run);
-
-        actions.add(name, action, res);
+        actions.add(name, action);
     }
 
     public void add(String name, int initial, SimpleAction.OnActivate run) {
-        Resources res = new Resources();
-
-        var action = SimpleAction.newStatefulSimpleAction(res.str(name), new VariantType(INTEGER), Variant.newInt32Variant(initial));
+        var strName = new Str(name);
+        var action = SimpleAction.newStatefulSimpleAction(strName, new VariantType(INTEGER), Variant.newInt32Variant(initial));
+        strName.destroy();
 
         var runWrapper = new SimpleAction.OnActivate() {
             @Override
@@ -75,10 +71,7 @@ public class Actions {
             }
         };
         action.onActivate(runWrapper);
-        res.add(runWrapper);
-        res.add(run);
-
-        actions.add(name, action, res);
+        actions.add(name, action);
     }
 
     public void changeState(String name, boolean checked) {
@@ -120,13 +113,5 @@ public class Actions {
         if (accels != null && accels.length > 1 && accels[accels.length - 1] == null) {
             app.setAccelsForAction(new Str(this.name + "." + name), new Strs(accels));
         }
-    }
-
-    public void remove(String name) {
-        actions.remove(name);
-    }
-
-    public void destroy() {
-        actions.destroy();
     }
 }

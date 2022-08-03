@@ -7,19 +7,23 @@ import config.CSS
 import config.Layout
 import config.Strings
 import controller.Controller
+import lib.menu.Actions
 import kotlin.system.exitProcess
 
 class Window(app: Application) {
     private val window = ApplicationWindow(app)
 
     init {
+        val actions = Actions(app)
+
         val box = Box(Orientation.VERTICAL, 0)
         val place = Place()
         val hours = Hours()
         val days = Days(hours)
-        val header = Header(window, app)
+        val header = Header(window, actions)
         val map = Map()
         val overlay = Overlay()
+
 
 
         Controller.withMap = { cb -> cb(map.mapView) }
@@ -51,7 +55,7 @@ class Window(app: Application) {
             visible = GTK.FALSE
         })
 
-        overlay.addOverlay(Search(app).box)
+        overlay.addOverlay(Search(actions).box)
         overlay.addOverlay(Navigation().box)
         overlay.addOverlay(Select().box)
         overlay.addOverlay(Spinner().box)

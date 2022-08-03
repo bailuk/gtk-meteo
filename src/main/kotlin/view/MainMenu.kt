@@ -1,16 +1,16 @@
 package view
 
-import ch.bailu.gtk.gtk.Application
 import ch.bailu.gtk.gtk.MenuButton
 import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.type.Str
 import config.Strings
 import controller.Controller
 import lib.extension.ellipsize
+import lib.menu.Actions
 import lib.menu.MenuModelBuilder
 import model.Model
 
-class MainMenu(window: Window, app: Application) {
+class MainMenu(window: Window, actions: Actions) {
     private var places = ArrayList<String>()
 
     val menuButton = MenuButton().apply {
@@ -28,7 +28,7 @@ class MainMenu(window: Window, app: Application) {
                     separator("", MenuModelBuilder().label(Strings.info) {
                         About.show(window)
                     })
-                }.create(app)
+                }.create(actions)
             }
         }
     }
