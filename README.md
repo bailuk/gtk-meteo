@@ -4,7 +4,8 @@ Forecast data is from [Meteorologisk institutt Norge](https://www.met.no).
 
 ## Features
 - Select place from map or text search
-- 6 Days forecast
+- 5 days forecast
+- 5 lockable presets
 - Optimized for small screens: tested on [PinePhone](https://www.pine64.org/pinephone/) 
 
 ## Screenshot
