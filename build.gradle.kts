@@ -27,10 +27,12 @@ tasks.test {
     useJUnitPlatform()
 }
 
+val mapsForgeVersion: String by project
+val mapsForgeGtkVersion: String by project
 
 dependencies {
-    implementation("org.mapsforge:mapsforge-map-reader:0.15.0")
-    implementation("org.mapsforge:mapsforge-map-gtk:SNAPSHOT")
+    implementation("org.mapsforge:mapsforge-map-reader:${mapsForgeVersion}")
+    implementation("com.github.bailuk:mapsforge-gtk:${mapsForgeGtkVersion}")
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
 }
