@@ -6,33 +6,37 @@ import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.type.Str
 import config.Strings
 import controller.Controller
-import lib.ellipsize
-import lib.menu.MenuModelBuilder
 import model.Model
 
 class Header(window: Window, app: Application) {
-    val headerBar = HeaderBar()
+    companion object {
+        private val iconLocked = Str("changes-prevent-symbolic")
+        private val iconUnlocked = Str("changes-allow-symbolic")
+        fun getLockIcon(): Str {
+            return if (Controller.isSelectedSlotLocked()) {
+                iconLocked
+            } else {
+                iconUnlocked
+            }
+        }
+    }
 
-    private val add = Button.newFromIconNameButton(Str("list-add-symbolic"))
-    private val remove = Button.newFromIconNameButton(Str("list-remove-symbolic"))
+    val headerBar = HeaderBar()
 
     init {
         headerBar.showTitleButtons = GTK.TRUE
+        headerBar.packStart(Button.newFromIconNameButton(iconLocked).apply {
+            onClicked {
+                Controller.toggleLockSelectedSlot()
+                iconName = getLockIcon()
+            }
+            Model.observePlace {_, index ->
+                if (Controller.isSelectedSlot(index)) {
+                    iconName = getLockIcon()
+                }
+            }
+        })
 
-        val about = Button.newWithLabelButton(Strings.about)
-        about.onClicked   { About.show(window) }
-
-
-        add.onClicked {
-            updateBookmarkButtons()
-        }
-
-        remove.onClicked {
-            updateBookmarkButtons()
-        }
-
-        headerBar.packStart(add)
-        headerBar.packStart(remove)
 
         val box = Box(Orientation.HORIZONTAL, 0)
         box.addCssClass(Strings.linked)
@@ -41,28 +45,8 @@ class Header(window: Window, app: Application) {
                 Controller.selectNextSlot()
             }
         })
-        box.append(MenuButton().apply {
-            iconName = Str("view-more-symbolic")
-            Model.observePlace { _, _ ->
-                menuModel = MenuModelBuilder().apply {
-                    Model.forEachPlace { index, place ->
-                        label(place.toString().ellipsize(30)) {
-                            Controller.selectSlot(index)
-                        }
-                    }
-                    separator("", MenuModelBuilder().label("Info…") {
-                        About.show(window)
-                    })
-                }.create(app)
-            }
-        })
+        box.append(MainMenu(window, app).menuButton)
 
         headerBar.packEnd(box)
-        updateBookmarkButtons()
-    }
-
-    private fun updateBookmarkButtons() {
-        remove.visible = GTK.TRUE
-        add.visible = GTK.FALSE
     }
 }

@@ -1,6 +1,8 @@
 package view
 
+import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
+import ch.bailu.gtk.type.Str
 import config.CSS
 import config.Layout
 import config.Strings
@@ -19,7 +21,8 @@ class Window(app: Application) {
         val map = Map()
         val overlay = Overlay()
 
-        Controller.map = map.mapView
+
+        Controller.withMap = { cb -> cb(map.mapView) }
         overlay.child = map.mapView.drawingArea
 
         window.title = Strings.appTitle
@@ -30,6 +33,24 @@ class Window(app: Application) {
         box.append(days.icons)
         box.append(hours.scroller)
 
+        box.append(InfoBar().apply {
+            showCloseButton = GTK.TRUE
+            val label = Label(Str.NULL)
+            addChild(label)
+            messageType = MessageType.ERROR
+            onResponse { hide() }
+
+            Controller.showError = { message ->
+                if (message == "") {
+                    hide()
+                } else {
+                    label.text = Str(message)
+                    show()
+                }
+            }
+            visible = GTK.FALSE
+        })
+
         overlay.addOverlay(Search(app).box)
         overlay.addOverlay(Navigation().box)
         overlay.addOverlay(Select().box)
@@ -38,7 +59,7 @@ class Window(app: Application) {
 
         window.setDefaultSize(Layout.window_width, Layout.window_height)
 
-        window.child =box
+        window.child = box
         window.onShow {
             map.initModel()
             Controller.loadModelFromFile()

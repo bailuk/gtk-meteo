@@ -27,7 +27,7 @@ class Slot {
             count++
             count-1
         } else {
-            SlotFiles.getOldestSlot(count)
+            SlotFiles.getOldestUnlockedSlot(count)
         }
     }
 

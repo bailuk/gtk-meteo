@@ -16,7 +16,7 @@ class Spinner {
         addCssClass(Str("map-center"))
         append(GtkSpinner().apply {
             setSizeRequest(50,50)
-            Controller.spinner = this
+            Controller.withSpinner = { cb -> cb(this) }
             marginStart = Layout.margin
             marginTop = Layout.margin
         })

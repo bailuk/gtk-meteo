@@ -6,16 +6,19 @@ import java.util.regex.Pattern
 object SlotFiles {
     private val PATTERN: Pattern = Pattern.compile("days-([0-9]+)\\.json")
 
-    fun getOldestSlot(max: Int): Int {
-        var index = 0
+    fun getOldestUnlockedSlot(max: Int): Int {
+        var index = -1
         var time = System.currentTimeMillis()
         eachSlotOnFileSystem { i, t ->
-            if (i < max && t < time) {
+            if (i < max && t < time && !LockFiles.isLocked(i)) {
                 index = i
                 time = t
             }
         }
-        return index
+        if (index > -1) {
+            return index
+        }
+        throw IndexOutOfBoundsException("No free slot, unlock one first")
     }
 
     fun getNewestSlot(max: Int): Int {

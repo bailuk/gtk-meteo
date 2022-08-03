@@ -1,6 +1,7 @@
 package controller
 
 import ch.bailu.gtk.gtk.Spinner
+import ch.bailu.gtk.type.Str
 import model.Model
 import org.mapsforge.core.model.LatLong
 import org.mapsforge.map.gtk.view.MapView
@@ -9,25 +10,34 @@ object Controller {
     private val rest = Rest()
     private val slot = Slot()
 
-    var map: MapView? = null
-    var spinner: Spinner? = null
+    var showError : (message: String) -> Unit = { message -> if(message.isNotEmpty()) println(message) }
+    var withMap : (cb: (mapView: MapView) -> Unit) -> Unit = {}
+    var withSpinner: (cb: (spinner: Spinner) -> Unit) -> Unit = {}
 
     fun addMapCenterToModelAndLoad() {
         withMap {
             val latLong = it.model.mapViewPosition.center
 
-            selectSlotFor(latLong)
+            showError("")
+            try {
+                selectSlotFor(latLong)
 
-            rest.saveDays(slot.selected, latLong)  { restClient ->
-                if (restClient.ok) Model.updateDays(restClient.json, slot.selected)
-                updateSpinner()
-            }
+                rest.saveDays(slot.selected, latLong) { restClient ->
+                    if (restClient.ok) Model.updateDays(restClient.json, slot.selected)
+                    updateSpinner()
+                }
 
-            rest.savePlace(slot.selected, latLong) { restClient ->
-                if (restClient.ok) Model.updatePlace(restClient.json, slot.selected)
+                rest.savePlace(slot.selected, latLong) { restClient ->
+                    if (restClient.ok) Model.updatePlace(restClient.json, slot.selected)
+                    updateSpinner()
+                }
                 updateSpinner()
+            } catch (e: IndexOutOfBoundsException) {
+                val message = e.message
+                if (message is String) {
+                    showError(message)
+                }
             }
-            updateSpinner()
         }
     }
 
@@ -50,13 +60,6 @@ object Controller {
 
     fun centerMap(latLong: LatLong) {
         withMap { it.model.mapViewPosition.center = latLong }
-    }
-
-    private fun withMap(call: (MapView) -> Unit) {
-        val map = map
-        if (map is MapView) {
-            call(map)
-        }
     }
 
     fun loadModelFromFile() {
@@ -94,9 +97,7 @@ object Controller {
 
 
     private fun updateSpinner() {
-        val spinner = spinner
-
-        if (spinner is Spinner) {
+        withSpinner { spinner->
             if (RestClient.downloads > 0) {
                 spinner.start()
             } else {
@@ -131,5 +132,13 @@ object Controller {
     fun selectSlot(index: Int) {
         slot.select(index)
         Model.notify(slot.selected)
+    }
+
+    fun isSelectedSlotLocked(): Boolean {
+        return LockFiles.isLocked(slot.selected)
+    }
+
+    fun toggleLockSelectedSlot() {
+        LockFiles.toggleLock(slot.selected)
     }
 }
