@@ -118,8 +118,10 @@ object Controller {
         Model.withDays(slot.selected) { days->
             rest.saveDays(slot.selected, days.getLatLong()) { rest ->
                 if (rest.ok) Model.updateDays(rest.json, slot.selected)
+                updateSpinner()
             }
         }
+        updateSpinner()
     }
 
     fun isSelectedSlot(index: Int): Boolean {

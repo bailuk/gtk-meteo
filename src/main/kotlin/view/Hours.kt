@@ -32,19 +32,16 @@ class Hours {
         scroller.visible = GTK.FALSE
 
         Model.observeDays { days, index ->
-            if (selected > -1) {
-                if (Controller.isSelectedSlot(index)) {
-                    var count = 0
-                    days.days[selected].forEachSample {
-                        if (count < HOURS) {
-                            hours[count].update(it)
-                            hours[count].box.visible = GTK.TRUE
-                        }
-                        count++
+            if (selected > -1 && Controller.isSelectedSlot(index)) {
+                var count = -1
+                days.days[selected].forEachSample { sample->
+                    if (++count < HOURS) {
+                        hours[count].update(sample)
+                        hours[count].box.visible = GTK.TRUE
                     }
-                    for (i in count until HOURS) {
-                        hours[i].box.visible = GTK.FALSE
-                    }
+                }
+                while(++count < HOURS) {
+                    hours[count].box.visible = GTK.FALSE
                 }
             }
         }

@@ -30,7 +30,7 @@ class Hour {
 
     fun update(sample: Sample) {
         time.text = Str(sample.dateTime.toLocalTime().hour.toString())
-        temp.text = Str("${sample.airTemperature.toString()}°")
+        temp.text = Str("${sample.airTemperature}°")
         icon.setFromPixbuf(IconMap.getPixbuf(sample.symbol, ICON_SIZE))
     }
 }
