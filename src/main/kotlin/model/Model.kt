@@ -1,8 +1,7 @@
 package model
 
 import org.mapsforge.core.model.LatLong
-import parser.JsonMap
-import view.Place
+import lib.json.JsonMap
 
 object Model {
     private const val SAME_PLACE = 2500

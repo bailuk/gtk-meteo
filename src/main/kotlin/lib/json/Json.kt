@@ -1,4 +1,4 @@
-package parser
+package lib.json
 
 import com.google.gson.Gson
 import java.io.File
@@ -6,7 +6,7 @@ import java.io.File
 object Json {
     private val empty = JsonMap(HashMap<String,String>())
 
-    fun parse(file : File) : JsonMap{
+    fun parse(file : File) : JsonMap {
         return try {
             parse(file.readText())
         } catch (e :Exception) {

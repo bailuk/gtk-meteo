@@ -4,7 +4,9 @@ import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
-import lib.IconMap
+import config.Strings
+import lib.extension.setText
+import lib.icons.IconMap
 import model.DayModel
 
 class Day {
@@ -33,17 +35,16 @@ class Day {
     }
 
     fun update(day: DayModel) {
-        Util.setText(this.day, day.weekDay)
-        Util.setText(min,"${day.tempMin}°")
-        Util.setText(max, "${day.tempMax}°")
+        this.day.setText(day.weekDay)
+        min.setText("${day.tempMin}°")
+        max.setText("${day.tempMax}°")
         icon.setFromPixbuf(IconMap.getPixbuf(day.symbol, ICON_SIZE))
     }
 
     fun clear() {
-        Util.setText(day, "")
-        Util.setText(min, "")
-        Util.setText(max, "")
+        day.text = Strings.empty
+        min.text = Strings.empty
+        max.text = Strings.empty
         icon.clear()
     }
-
 }

@@ -1,6 +1,6 @@
 package model
 
-import parser.JsonMap
+import lib.json.JsonMap
 
 class PlaceModel {
     var city = ""
@@ -30,12 +30,12 @@ class PlaceModel {
     }
 
     private fun getFullText(tagO: String = "", tagC: String = ""): String {
-        return if (city == "") {
+        return if (city.isEmpty()) {
             country
-        } else if (country == "") {
+        } else if (country.isEmpty()) {
             city
         } else {
-            "${tagO}${city}${tagC} ${country}"
+            "${tagO}${city}${tagC} $country"
         }
     }
 

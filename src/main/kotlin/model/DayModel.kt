@@ -1,6 +1,6 @@
 package model
 
-import parser.JsonMap
+import lib.json.JsonMap
 import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.time.format.TextStyle
@@ -39,21 +39,21 @@ class DayModel(dateTime: ZonedDateTime) {
 
         data.map("next_12_hours") { next12 ->
             sampleSymbol = getSymbol(next12)
-            if (symbol == "" || lastUpdate.hour < 7) {
+            if (symbol.isEmpty() || lastUpdate.hour < 7) {
                 symbol = sampleSymbol
             }
         }
 
         data.map("next_6_hours") { next6 ->
             sampleSymbol = getSymbol(next6)
-            if (symbol == "") {
+            if (symbol.isEmpty()) {
                 symbol = sampleSymbol
             }
         }
 
         data.map("next_1_hours") { next1 ->
             sampleSymbol = getSymbol(next1)
-            if (symbol == "") {
+            if (symbol.isEmpty()) {
                 symbol = sampleSymbol
             }
         }

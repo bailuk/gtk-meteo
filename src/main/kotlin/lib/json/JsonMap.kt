@@ -1,4 +1,4 @@
-package parser
+package lib.json
 
 class JsonMap(private val map: Map<*,*> ) {
     fun map(key: String, call: (JsonMap) -> Unit) {

@@ -4,7 +4,7 @@ import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.gtk.Window
 import config.Strings
-import lib.IconMap
+import lib.icons.IconMap
 
 object About {
     fun show(window: Window) {

@@ -6,6 +6,7 @@ import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.pango.EllipsizeMode
 import ch.bailu.gtk.type.Str
 import controller.Controller
+import lib.extension.setText
 import model.Model
 
 class PlaceLabels {
@@ -24,8 +25,8 @@ class PlaceLabels {
 
         Model.observeDays { days, index ->
             if (Controller.isSelectedSlot(index)) {
-                updatedAt.text = Str(days.getUpdatedAtLabel())
-                location.text = Str(days.getLocationLabel())
+                updatedAt.setText(days.getUpdatedAtLabel())
+                location.setText(days.getLocationLabel())
             }
         }
     }

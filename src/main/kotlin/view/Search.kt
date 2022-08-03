@@ -5,7 +5,7 @@ import ch.bailu.gtk.type.Str
 import config.Layout
 import config.Strings
 import controller.Controller
-import lib.ellipsize
+import lib.extension.ellipsize
 import lib.menu.MenuModelBuilder
 import model.Model
 

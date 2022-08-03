@@ -4,7 +4,7 @@ import ch.bailu.gtk.GTK
 import ch.bailu.gtk.glib.Glib
 import config.Strings
 import okhttp3.*
-import parser.Json
+import lib.json.Json
 import java.io.File
 import java.io.IOException
 

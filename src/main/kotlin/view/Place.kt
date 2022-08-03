@@ -8,6 +8,7 @@ import ch.bailu.gtk.pango.EllipsizeMode
 import ch.bailu.gtk.type.Str
 import config.Layout
 import controller.Controller
+import lib.extension.setMarkup
 import model.Model
 
 class Place {
@@ -32,7 +33,7 @@ class Place {
 
         Model.observePlace { place, index ->
             if (Controller.isSelectedSlot(index)) {
-                Util.setMarkup(name, place.markup)
+                name.setMarkup(place.markup)
             }
         }
     }

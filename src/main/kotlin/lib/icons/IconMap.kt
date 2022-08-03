@@ -1,4 +1,4 @@
-package lib
+package lib.icons
 
 import ch.bailu.gtk.gdk.Paintable
 import ch.bailu.gtk.gdkpixbuf.Pixbuf

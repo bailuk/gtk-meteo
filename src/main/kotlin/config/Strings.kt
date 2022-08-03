@@ -9,10 +9,6 @@ object Strings {
     val appTitle = Str("GTK Meteo")
     val version = Str("v0.1.0")
 
-    val close = Str("Close")
-    val about = Str("About...")
-    val find = Str("Find")
-
     val copyright = Str(
         """
             © 2021, 2022 Lukas Bai, MIT License,
@@ -23,5 +19,14 @@ object Strings {
 
     val website = Str("https://github.com/bailuk/gtk-meteo")
 
+    // UX
+    val close = Str("Close")
+    const val info = "Info…"
+
+    // CSS
     val linked = Str("linked")
+    val mapCenter = Str("map-center")
+
+    // Defaults
+    val empty = Str("")
 }

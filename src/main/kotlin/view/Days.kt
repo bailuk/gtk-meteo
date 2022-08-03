@@ -71,6 +71,8 @@ class Days(private val dayDetail: Hours) {
              days.forEachIndexed { index, day ->
                  day.update(daysModel.days[index])
             }
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+            println(e.message)
+        }
     }
 }

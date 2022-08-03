@@ -41,7 +41,7 @@ class Window(app: Application) {
             onResponse { hide() }
 
             Controller.showError = { message ->
-                if (message == "") {
+                if (message.isEmpty()) {
                     hide()
                 } else {
                     label.text = Str(message)
@@ -57,7 +57,7 @@ class Window(app: Application) {
         overlay.addOverlay(Spinner().box)
         box.append(overlay)
 
-        window.setDefaultSize(Layout.window_width, Layout.window_height)
+        window.setDefaultSize(Layout.windowWidth, Layout.windowHeight)
 
         window.child = box
         window.onShow {

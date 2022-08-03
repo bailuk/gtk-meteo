@@ -1,7 +1,7 @@
 package model
 
 import org.mapsforge.core.model.LatLong
-import parser.JsonMap
+import lib.json.JsonMap
 
 class SearchModel {
 

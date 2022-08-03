@@ -4,8 +4,9 @@ import ch.bailu.gtk.gtk.Application
 import ch.bailu.gtk.gtk.MenuButton
 import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.type.Str
+import config.Strings
 import controller.Controller
-import lib.ellipsize
+import lib.extension.ellipsize
 import lib.menu.MenuModelBuilder
 import model.Model
 
@@ -19,13 +20,12 @@ class MainMenu(window: Window, app: Application) {
             if (!comparePlaces(places, newPlaces)) {
                 places = newPlaces
                 menuModel = MenuModelBuilder().apply {
-                    println("Update menu")
                     places.forEachIndexed { index, element ->
                         label(element) {
                             Controller.selectSlot(index)
                         }
                     }
-                    separator("", MenuModelBuilder().label("Info…") {
+                    separator("", MenuModelBuilder().label(Strings.info) {
                         About.show(window)
                     })
                 }.create(app)

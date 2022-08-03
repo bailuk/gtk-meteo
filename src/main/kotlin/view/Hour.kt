@@ -7,7 +7,8 @@ import ch.bailu.gtk.gtk.Label
 import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
-import lib.IconMap
+import lib.extension.setText
+import lib.icons.IconMap
 import model.Sample
 
 class Hour {
@@ -29,8 +30,8 @@ class Hour {
     }
 
     fun update(sample: Sample) {
-        time.text = Str(sample.dateTime.toLocalTime().hour.toString())
-        temp.text = Str("${sample.airTemperature}°")
+        time.setText(sample.dateTime.toLocalTime().hour.toString())
+        temp.setText("${sample.airTemperature}°")
         icon.setFromPixbuf(IconMap.getPixbuf(sample.symbol, ICON_SIZE))
     }
 }
