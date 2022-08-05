@@ -29,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: gtk-meteo
-          path: gtk-meteo/*
+          path: gtk-meteo
           if-no-files-found: error
