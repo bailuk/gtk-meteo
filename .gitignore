@@ -72,5 +72,8 @@ nb-configuration.xml
 *.DS_Store
 Thumbs.db
 
+# Flatpak
+.flatpak-builder/
+
 # Development
 todo/
