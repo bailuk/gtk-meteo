@@ -17,7 +17,7 @@ Forecast data is from [Meteorologisk institutt Norge](https://www.met.no).
 - Install dependencies: `sudo apt install openjdk-11-jre libgtk-4-1`
 - Download `gtk-meteo.zip` from [release](https://github.com/bailuk/gtk-meteo/releases) or [build pipeline](https://github.com/bailuk/gtk-meteo/actions)
 - Extract archive: `unzip gtk-meteo.zip`
-- Run install script as user: `cd gtk-meteo && ./install.sh`
+- Run install script as user: `sh install.sh`
 
 ## Build
 - Install dependencies: `sudo apt install openjdk-11-jdk libgtk-4-dev`
