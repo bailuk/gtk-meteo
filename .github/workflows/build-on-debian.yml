@@ -22,9 +22,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Collect files for distribution
+        run: util/ci/collect-artifacts.sh gtk-meteo
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: mapsforge-gtk
-          path: build/libs/*
+          name: gtk-meteo
+          path: gtk-meteo/*
           if-no-files-found: error

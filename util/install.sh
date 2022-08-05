@@ -1,34 +1,91 @@
 #!/bin/sh
-#
-# Compile, install and run app locally for logged in user
-# Example usage: ./install.sh
-#
 
-test -d gradle || cd ..
+help="Installs application for logged in user or for user on ssh host
+Usage: ./install.sh [--build] [--run] [--help] [user@ssh_host]
+Options:
+  --build: build first
+  --run: run after installation
+  usar@ssh_host: install on a remote device"
 
-echo "Install for $(whoami)"
-
+# general
 app="gtk-meteo"
-desktop="${HOME}/.local/share/applications/ch.bailu.${app}.desktop"
-data="${HOME}/.config/${app}"
+app_id="ch.bailu.${app}"
+app_comment="Select location from map and show weather forecast"
+app_name="GTK Meteo"
+jar="${app}-all.jar"
+build="build/libs/"
 
-./gradlew build || exit 1
+# arguments
+for i in "$@"; do
+  if [ "$i" = "--help" ]; then
+    echo "$help"
+    exit 0
+  elif [ "$i" = "--run" ]; then
+    option_run="$i"
+  elif [ "$i" = "--build" ]; then
+    option_build="$i"
+  else
+    remote="$i"
+  fi
+done
 
-test -d ${data} || mkdir ${data} || exit 1
-cp  build/libs/${app}-all.jar "${data}/${app}.jar"  || exit 1
-cp  src/main/resources/svg/app-icon.svg "${data}/${app}.svg" || exit 1
+# source
+if [ -f $jar ]; then
+  source_jar=$jar
+  source_icon=app-icon.svg
+else
+  source_jar=$build/$jar
+  source_icon="src/main/resources/svg/app-icon.svg"
+  test -d gradle || cd ..
+fi
 
-cat > ${desktop} << EOF
+# destination
+if [ -n "$remote" ]; then
+  echo ">> install on '$remote'"
+  home=$(ssh $remote pwd)
+  cmd="ssh $remote"
+  copy="scp"
+  tor="$remote:"
+else
+  echo ">> install for '$(whoami)'"
+  home=$HOME
+  cmd="/bin/sh -c"
+  copy="cp -v"
+  tor=""
+fi
+
+desktop="${home}/.local/share/applications/${app_id}.desktop"
+data="${home}/.config/${app}"
+
+# build
+if [ "$option_build" = "--build" ]; then
+    echo ">> build"
+    ./gradlew build || exit 1
+fi
+
+# install
+$cmd "test -d ${data} || mkdir ${data}" || exit 1
+$copy $source_jar "${tor}${data}/${app}.jar"  || exit 1
+$copy $source_icon "${tor}${data}/${app}.svg" || exit 1
+
+echo "create '${desktop}'"
+$cmd "cat > ${desktop}" << EOF
 [Desktop Entry]
 Type=Application
 Terminal=false
 Exec=java -jar ${data}/${app}.jar
-Name=GTK Meteo
-Comment=Select location from map and show weather forecast
+Name=${app_name}
+Comment=${app_comment}
 Icon=${data}/${app}.svg
 EOF
 
-chmod 700 "${desktop}" || exit 1
-java -jar "${data}/${app}.jar" || exit 1
+$cmd "chmod 700 ${desktop}" || exit 1
+
+# run
+if [ "$option_run" = "--run" ]; then
+  java_cmd="java -jar ${data}/${app}.jar"
+  echo ">> run '$java_cmd'"
+  $cmd "$java_cmd" || exit 1
+fi
 
 exit 0
