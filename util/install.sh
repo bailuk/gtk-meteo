@@ -24,6 +24,8 @@ for i in "$@"; do
     option_run="$i"
   elif [ "$i" = "--build" ]; then
     option_build="$i"
+  elif [ "$i" = "--no-install" ]; then
+    option_install="$1"
   else
     remote="$i"
   fi
@@ -34,8 +36,9 @@ if [ -f $jar ]; then
   source_jar=$jar
   source_icon=app-icon.svg
 else
-  source_jar=$build/$jar
-  source_icon="src/main/resources/svg/app-icon.svg"
+  source_jar="tlg_gtk/$build/$jar"
+  source_icon="tlg_gtk/src/main/resources/svg/app-icon.svg"
+  test -d gradle || cd ..
   test -d gradle || cd ..
 fi
 
@@ -64,12 +67,13 @@ if [ "$option_build" = "--build" ]; then
 fi
 
 # install
-$cmd "test -d ${data} || mkdir ${data}" || exit 1
-$copy $source_jar "${tor}${data}/${app}.jar"  || exit 1
-$copy $source_icon "${tor}${data}/${app}.svg" || exit 1
+if [ "$option_install" = "" ]; then
+  $cmd "test -d ${data} || mkdir ${data}" || exit 1
+  $copy $source_jar "${tor}${data}/${app}.jar"  || exit 1
+  $copy $source_icon "${tor}${data}/${app}.svg" || exit 1
 
-echo "create '${desktop}'"
-$cmd "cat > ${desktop}" << EOF
+  echo "create '${desktop}'"
+  $cmd "cat > ${desktop}" << EOF
 [Desktop Entry]
 Type=Application
 Terminal=false
@@ -79,7 +83,8 @@ Comment=${app_comment}
 Icon=${data}/${app}.svg
 EOF
 
-$cmd "chmod 700 ${desktop}" || exit 1
+  $cmd "chmod 700 ${desktop}" || exit 1
+fi
 
 # run
 if [ "$option_run" = "--run" ]; then
