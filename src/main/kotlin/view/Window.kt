@@ -3,10 +3,11 @@ package view
 import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.type.Str
-import config.CSS
+import config.Files
 import config.Layout
 import config.Strings
 import controller.Controller
+import lib.css.CSS
 import lib.menu.Actions
 import kotlin.system.exitProcess
 
@@ -24,15 +25,13 @@ class Window(app: Application) {
         val map = Map()
         val overlay = Overlay()
 
-
-
         Controller.withMap = { cb -> cb(map.mapView) }
         overlay.child = map.mapView.drawingArea
 
         window.title = Strings.appTitle
         window.titlebar = header.headerBar
 
-        CSS.addStyleProvider(window)
+        CSS.addProviderForDisplay(window.display, Files.appCss)
         box.append(place.box)
         box.append(days.icons)
         box.append(hours.scroller)
