@@ -36,8 +36,8 @@ if [ -f $jar ]; then
   source_jar=$jar
   source_icon=app-icon.svg
 else
-  source_jar="tlg_gtk/$build/$jar"
-  source_icon="tlg_gtk/src/main/resources/svg/app-icon.svg"
+  source_jar="$build/$jar"
+  source_icon="src/main/resources/svg/app-icon.svg"
   test -d gradle || cd ..
   test -d gradle || cd ..
 fi
