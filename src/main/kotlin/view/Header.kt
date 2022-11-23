@@ -1,6 +1,5 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.type.Str
@@ -25,7 +24,7 @@ class Header(window: Window, actions: Actions) {
     val headerBar = HeaderBar()
 
     init {
-        headerBar.showTitleButtons = GTK.TRUE
+        headerBar.showTitleButtons = true
         headerBar.packStart(Button.newFromIconNameButton(iconLocked).apply {
             onClicked {
                 Controller.toggleLockSelectedSlot()

@@ -1,6 +1,5 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Label
 import ch.bailu.gtk.gtk.Orientation
@@ -8,7 +7,6 @@ import ch.bailu.gtk.pango.EllipsizeMode
 import ch.bailu.gtk.type.Str
 import config.Layout
 import controller.Controller
-import lib.extension.setMarkup
 import model.Model
 
 class Place {
@@ -19,7 +17,7 @@ class Place {
         marginTop = Layout.margin
 
         val name = Label(Str.NULL).apply {
-            useMarkup = GTK.TRUE
+            useMarkup = true
             xalign = 0f
             ellipsize = EllipsizeMode.END
         }
@@ -27,7 +25,7 @@ class Place {
         append(name)
         append(Box(Orientation.HORIZONTAL, 0).apply {
             append(PlaceLabels().box)
-            append(Label(Str.NULL).apply { hexpand =GTK.TRUE})
+            append(Label(Str.NULL).apply { hexpand =true})
             append(PlaceControl().box)
         })
 

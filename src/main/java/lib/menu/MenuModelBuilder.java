@@ -2,7 +2,6 @@ package lib.menu;
 
 import java.util.ArrayList;
 
-import ch.bailu.gtk.GTK;
 import ch.bailu.gtk.gio.Menu;
 import ch.bailu.gtk.gio.MenuItem;
 import ch.bailu.gtk.glib.Variant;
@@ -92,7 +91,7 @@ public class MenuModelBuilder {
             strActionId.destroy();
             actions.add(actionId.get(), parameter -> {
                 if (parameter != null) {
-                    onChecked.onChecked(GTK.IS(parameter.getBoolean()));
+                    onChecked.onChecked(parameter.getBoolean());
                 }
             });
         }

@@ -2,7 +2,6 @@ package lib.menu;
 
 import javax.annotation.Nullable;
 
-import ch.bailu.gtk.GTK;
 import ch.bailu.gtk.gio.Action;
 import ch.bailu.gtk.gio.SimpleAction;
 import ch.bailu.gtk.glib.Variant;
@@ -41,7 +40,7 @@ public class Actions {
     public void add(String name, boolean initial, SimpleAction.OnActivate run) {
 
         var strName = new Str(name);
-        var action = SimpleAction.newStatefulSimpleAction(strName, null, Variant.newBooleanVariant(GTK.IS(initial)));
+        var action = SimpleAction.newStatefulSimpleAction(strName, null, Variant.newBooleanVariant(initial));
         strName.destroy();
 
         var runWrapper = new SimpleAction.OnActivate() {
@@ -78,7 +77,7 @@ public class Actions {
         Action action = actions.get(name);
 
         if (action != null) {
-            action.changeState(Variant.newBooleanVariant(GTK.IS(checked)));
+            action.changeState(Variant.newBooleanVariant(checked));
         }
     }
 
@@ -86,7 +85,7 @@ public class Actions {
         Action action = actions.get(name);
 
         if (action != null) {
-            action.changeState(Variant.newBooleanVariant(GTK.TOGGLE(action.getState().getBoolean())));
+            action.changeState(Variant.newBooleanVariant(!action.getState().getBoolean()));
             return getBooleanState(name);
         }
         return false;
@@ -104,7 +103,7 @@ public class Actions {
         Action action = actions.get(name);
 
         if (action != null) {
-            return GTK.IS(action.getState().getBoolean());
+            return action.getState().getBoolean();
         }
         return false;
     }

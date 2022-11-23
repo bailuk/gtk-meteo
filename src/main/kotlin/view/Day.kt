@@ -1,11 +1,9 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
 import config.Strings
-import lib.extension.setText
 import lib.icons.IconMap
 import model.DayModel
 
@@ -28,7 +26,7 @@ class Day {
         button.child = box
         box.append(day)
         box.append(icon)
-        icon.hexpand = GTK.TRUE
+        icon.hexpand = true
         icon.setSizeRequest(ICON_SIZE, ICON_SIZE)
         box.append(min)
         box.append(max)
