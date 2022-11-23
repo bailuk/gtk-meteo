@@ -1,6 +1,5 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.gtk.ScrolledWindow
@@ -29,7 +28,7 @@ class Hours {
         scroller.marginEnd = Layout.margin
         scroller.child = box
         scroller.minContentHeight = 75
-        scroller.visible = GTK.FALSE
+        scroller.visible = false
 
         Model.observeDays { days, index ->
             if (selected > -1 && Controller.isSelectedSlot(index)) {
@@ -37,11 +36,11 @@ class Hours {
                 days.days[selected].forEachSample { sample->
                     if (++count < HOURS) {
                         hours[count].update(sample)
-                        hours[count].box.visible = GTK.TRUE
+                        hours[count].box.visible = true
                     }
                 }
                 while(++count < HOURS) {
-                    hours[count].box.visible = GTK.FALSE
+                    hours[count].box.visible = false
                 }
             }
         }
@@ -51,9 +50,9 @@ class Hours {
         if (selected != index) {
             selected = index
             if (selected < 0) {
-                scroller.visible = GTK.FALSE
+                scroller.visible = false
             } else {
-                scroller.visible = GTK.TRUE
+                scroller.visible = true
                 Controller.notifySelectedSlot()
             }
         }

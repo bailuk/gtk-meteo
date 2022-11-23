@@ -1,6 +1,5 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.type.Str
 import config.Files
@@ -37,7 +36,7 @@ class Window(app: Application) {
         box.append(hours.scroller)
 
         box.append(InfoBar().apply {
-            showCloseButton = GTK.TRUE
+            showCloseButton = true
             val label = Label(Str.NULL)
             addChild(label)
             messageType = MessageType.ERROR
@@ -51,7 +50,7 @@ class Window(app: Application) {
                     show()
                 }
             }
-            visible = GTK.FALSE
+            visible = false
         })
 
         overlay.addOverlay(Search(actions).box)

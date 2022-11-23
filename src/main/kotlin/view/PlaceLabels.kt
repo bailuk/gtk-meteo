@@ -6,7 +6,6 @@ import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.pango.EllipsizeMode
 import ch.bailu.gtk.type.Str
 import controller.Controller
-import lib.extension.setText
 import model.Model
 
 class PlaceLabels {
