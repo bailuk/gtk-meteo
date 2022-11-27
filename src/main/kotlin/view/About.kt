@@ -25,7 +25,7 @@ object About {
         return HeaderBar().apply {
              showTitleButtons = false
              packEnd(Button().apply {
-                 label = Strings.close
+                 setLabel(Strings.close)
                  onClicked {
                      aboutDialog.close()
                  }

@@ -1,14 +1,12 @@
 package view
 
 import ch.bailu.gtk.gtk.*
-import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.type.Str
 import config.Strings
 import controller.Controller
-import lib.menu.Actions
 import model.Model
 
-class Header(window: Window, actions: Actions) {
+class Header(app: Application) {
     companion object {
         private val iconLocked = Str("changes-prevent-symbolic")
         private val iconUnlocked = Str("changes-allow-symbolic")
@@ -45,7 +43,7 @@ class Header(window: Window, actions: Actions) {
                 Controller.selectNextSlot()
             }
         })
-        box.append(MainMenu(window, actions).menuButton)
+        box.append(MainMenu(app).menuButton)
 
         headerBar.packEnd(box)
     }
