@@ -9,6 +9,7 @@ import config.Files
 import config.Layout
 import config.Strings
 import controller.Controller
+import controller.Prefs
 import kotlin.system.exitProcess
 
 class Window(app: Application) {
@@ -87,8 +88,8 @@ class Window(app: Application) {
         ActionHandler.get(app, "about").onActivate { ->
             About.show(window)
         }
-        ActionHandler.get(app, "auto-center", false).onToggle {
-            print("Auto center: $it")
+        ActionHandler.get(app, "auto-center", Prefs.getAutoCycle()).onToggle {
+            Prefs.putAutoCycle(it)
         }
         window.show()
     }
