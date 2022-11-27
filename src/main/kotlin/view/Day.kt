@@ -21,7 +21,6 @@ class Day {
 
     val button = ToggleButton()
 
-
     init {
         button.child = box
         box.append(day)

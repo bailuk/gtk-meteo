@@ -34,6 +34,7 @@ class RestClient(val file: File, private val start: String = "", private val end
                 downloads--
                 ok = false
 
+                Controller.showError("Failed to download from '$url'")
                 callBack(observer)
             }
 

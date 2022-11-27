@@ -1,7 +1,6 @@
 package view
 
 import ch.bailu.gtk.gtk.*
-import ch.bailu.gtk.type.Str
 import config.Layout
 import config.Strings
 import controller.Controller
@@ -18,7 +17,7 @@ class Search(private val actions: Actions) {
         marginTop = Layout.margin
         marginStart = Layout.margin
 
-        val entry = SearchEntry()
+        val entry = Entry()
         append(entry.apply {
 
             onActivate {
@@ -26,14 +25,14 @@ class Search(private val actions: Actions) {
             }
         })
 
-        append(Button.newFromIconNameButton(Str("edit-find-symbolic")).apply {
+        append(Button.newFromIconNameButton("edit-find-symbolic").apply {
             onClicked {
                 Controller.search(Editable(entry.cast()).text.toString())
             }
         })
 
         append(MenuButton().apply {
-            iconName = Str("view-more-symbolic")
+            setIconName("view-more-symbolic")
             Model.observeSearch {
                 menuModel = MenuModelBuilder().apply {
                     it.forEach { name, latLong ->
