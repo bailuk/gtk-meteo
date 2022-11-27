@@ -1,16 +1,20 @@
 package view
 
+import ch.bailu.gtk.glib.Glib
 import ch.bailu.gtk.gtk.*
+import ch.bailu.gtk.lib.bridge.CSS
 import ch.bailu.gtk.type.Str
 import config.Files
 import config.Layout
 import config.Strings
 import controller.Controller
-import lib.css.CSS
 import lib.menu.Actions
 import kotlin.system.exitProcess
 
 class Window(app: Application) {
+    companion object {
+        const val MESSAGE_TIMEOUT = 8
+    }
     private val window = ApplicationWindow(app)
 
     init {
@@ -33,24 +37,35 @@ class Window(app: Application) {
         CSS.addProviderForDisplay(window.display, Files.appCss)
         box.append(place.box)
         box.append(days.icons)
-        box.append(hours.scroller)
+        box.append(hours.revealer)
 
-        box.append(InfoBar().apply {
-            showCloseButton = true
-            val label = Label(Str.NULL)
-            addChild(label)
-            messageType = MessageType.ERROR
-            onResponse { hide() }
+        box.append(Revealer().apply {
+            val label = Label(Str.NULL).apply {
+                wrapMode = WrapMode.CHAR
+                wrap = true
+                addCssClass("error-message")
+            }
+
+            child = label
+            var timers = 0
 
             Controller.showError = { message ->
-                if (message.isEmpty()) {
-                    hide()
+                revealChild = if (message.isEmpty()) {
+                    false
                 } else {
-                    label.text = Str(message)
-                    show()
+                    label.setText(message)
+                    timers ++ // Ignore previous timeouts
+                    Glib.timeoutAddSeconds(MESSAGE_TIMEOUT, { _self, _ ->
+                        timers--
+                        if (timers == 0) { // Ignore if there is another timer active
+                            Controller.showError("")
+                        }
+                        _self.unregister() // Remove reference to callback (for garbage collection)
+                        false // Do not call again
+                    }, null)
+                    true
                 }
             }
-            visible = false
         })
 
         overlay.addOverlay(Search(actions).box)

@@ -2,3 +2,11 @@
     border: 5px solid #0a9aed5f;
     border-radius: 10px;
 }
+
+.error-message {
+    border: 5px solid #ffb366;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 3px;
+    background-color: #ffb3665f;
+}

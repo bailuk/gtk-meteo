@@ -4,7 +4,6 @@ import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Image
 import ch.bailu.gtk.gtk.Label
 import ch.bailu.gtk.gtk.Orientation
-import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
 import lib.icons.IconMap
 import model.Sample
@@ -15,9 +14,9 @@ class Hour {
     }
     val box = Box(Orientation.VERTICAL, 0)
 
-    private val time = Label(Str(CPointer.NULL))
+    private val time = Label(Str.NULL)
     private val icon = Image()
-    private val temp = Label(Str(CPointer.NULL))
+    private val temp = Label(Str.NULL)
 
     init {
         box.append(time)
