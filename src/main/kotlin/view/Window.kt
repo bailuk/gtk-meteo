@@ -3,12 +3,12 @@ package view
 import ch.bailu.gtk.glib.Glib
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.lib.bridge.CSS
+import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
 import config.Files
 import config.Layout
 import config.Strings
 import controller.Controller
-import lib.menu.Actions
 import kotlin.system.exitProcess
 
 class Window(app: Application) {
@@ -18,13 +18,11 @@ class Window(app: Application) {
     private val window = ApplicationWindow(app)
 
     init {
-        val actions = Actions(app)
-
         val box = Box(Orientation.VERTICAL, 0)
         val place = Place()
         val hours = Hours()
         val days = Days(hours)
-        val header = Header(window, actions)
+        val header = Header(app)
         val map = Map()
         val overlay = Overlay()
 
@@ -68,7 +66,7 @@ class Window(app: Application) {
             }
         })
 
-        overlay.addOverlay(Search(actions).box)
+        overlay.addOverlay(Search(app).box)
         overlay.addOverlay(Navigation().box)
         overlay.addOverlay(Select().box)
         overlay.addOverlay(Spinner().box)
@@ -86,6 +84,12 @@ class Window(app: Application) {
             exitProcess(0)
         }
 
+        ActionHandler.get(app, "about").onActivate { ->
+            About.show(window)
+        }
+        ActionHandler.get(app, "auto-center", false).onToggle {
+            print("Auto center: $it")
+        }
         window.show()
     }
 }
