@@ -16,7 +16,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     gradlePluginPortal()
-    maven { url = uri("local_maven") }
+    maven { url = uri("maven_local") }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
