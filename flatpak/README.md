@@ -1,5 +1,5 @@
 # Commands
-- `flatpak install flathub org.freedesktop.Platform//21.08 org.freedesktop.Sdk//21.08`
+- `flatpak install flathub org.freedesktop.Platform//22.08 org.freedesktop.Sdk//22.08`
 - `flatpak-builder --force-clean  build ch.bailu.gtk-meteo.json`
 
 # Flatpak and gradle

@@ -6,6 +6,7 @@ import ch.bailu.gtk.lib.bridge.CSS
 import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
 import config.Files
+import config.Keys
 import config.Layout
 import config.Strings
 import controller.Controller
@@ -85,10 +86,10 @@ class Window(app: Application) {
             exitProcess(0)
         }
 
-        ActionHandler.get(app, "about").onActivate { ->
+        ActionHandler.get(app, Keys.ABOUT).onActivate { ->
             About.show(window)
         }
-        ActionHandler.get(app, "auto-center", Prefs.getAutoCycle()).onToggle {
+        ActionHandler.get(app, Keys.AUTO_CYCLE, Prefs.getAutoCycle()).onToggle {
             Prefs.putAutoCycle(it)
         }
         window.show()
