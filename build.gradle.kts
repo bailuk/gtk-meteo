@@ -16,9 +16,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     gradlePluginPortal()
-    flatDir { // precached artifacts for flatpak build TODO change name
-        dirs("local_maven")
-    }
+    maven { url = uri("local_maven") }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
