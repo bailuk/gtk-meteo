@@ -27,6 +27,8 @@
         "gradle-sources.json"
       ],
       "build-commands": [
+        "pwd",
+        "find maven-local",
         "source /usr/lib/sdk/openjdk11/enable.sh && gradle build"
       ]
     }
