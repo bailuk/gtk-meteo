@@ -1,7 +1,7 @@
 {
-  "app-id": "ch.bailu.gkt-meteo",
+  "app-id": "ch.bailu.gtk-meteo",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "21.08",
+  "runtime-version": "22.08",
   "sdk": "org.freedesktop.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.openjdk11"
@@ -23,29 +23,22 @@
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
           "branch": "main"
-        }
+        },
+        "gradle-sources.json"
       ],
       "build-commands": [
-        "export JAVA_HOME=/app/jre && ./gradlew build"
+        "source /usr/lib/sdk/openjdk11/enable.sh && gradle build"
       ]
     }
   ],
   "finish-args": [
     "--share=network",
     "--share=ipc",
-    "--socket=fallback-x11",
     "--socket=wayland",
-    "--socket=pulseaudio",
-    "--device=dri",
-    "--filesystem=xdg-config/gtk-3.0",
-    "--filesystem=xdg-run/gvfsd",
-    "--filesystem=host",
+    "--socket=fallback-x11",
     "--env=GIO_EXTRA_MODULES=/app/lib/gio/modules",
     "--env=JAVA_HOME=/app/jre",
-    "--env=LIBO_FLATPAK=1",
-    "--own-name=org.libreoffice.LibreOfficeIpc0",
-    "--talk-name=org.gtk.vfs.*",
-    "--talk-name=com.canonical.AppMenu.Registrar"
+    "--env=LIBO_FLATPAK=1"
   ],
   "tags": [
     "nightly"

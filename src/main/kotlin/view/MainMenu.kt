@@ -6,6 +6,7 @@ import ch.bailu.gtk.gtk.MenuButton
 import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
+import config.Keys
 import config.Strings
 import controller.Controller
 import lib.extension.ellipsize
@@ -25,16 +26,16 @@ class MainMenu(app: Application) {
 
                     appendSection(Str.NULL, Menu().apply {
                         places.forEachIndexed { index, element ->
-                            append(element, "app.slot$index")
-                            ActionHandler.get(app, "slot$index").disconnectSignals()
-                            ActionHandler.get(app, "slot$index").onActivate { ->
+                            append(element, "app.${Keys.SLOT}$index")
+                            ActionHandler.get(app, "${Keys.SLOT}$index").disconnectSignals()
+                            ActionHandler.get(app, "${Keys.SLOT}$index").onActivate { ->
                                 Controller.selectSlot(index)
                             }
                         }
                     })
                     appendSection(Str.NULL, Menu().apply {
-                        append(Strings.autoCenter, "app.auto-center")
-                        append(Strings.info, "app.about")
+                        append(Strings.autoCenter, "app.${Keys.AUTO_CYCLE}")
+                        append(Strings.info, "app.${Keys.ABOUT}")
                     })
                 }
             }
