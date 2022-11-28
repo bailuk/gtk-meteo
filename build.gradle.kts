@@ -1,9 +1,6 @@
 plugins {
     application
 
-    // https://imperceptiblethoughts.com/shadow/getting-started
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-
     // https://kotlinlang.org/docs/gradle.html#targeting-the-jvm
     kotlin("jvm") version "1.7.21"
 }
