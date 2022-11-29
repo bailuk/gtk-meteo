@@ -6,7 +6,7 @@
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.openjdk11"
   ],
-  "command": "gtk-meteo",
+  "command": "gtk-meteo.sh",
   "modules": [
     {
       "name": "openjdk",
@@ -29,7 +29,9 @@
       "build-commands": [
         "pwd",
         "find maven-local",
-        "source /usr/lib/sdk/openjdk11/enable.sh && gradle build"
+        "source /usr/lib/sdk/openjdk11/enable.sh && gradle build",
+        "install -D build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",
+        "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh"
       ]
     }
   ],

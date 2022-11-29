@@ -28,6 +28,7 @@ buildNumber.properties
 
 # Gradle
 build/
+maven-local/
 .gradle
 .gradletasknamecache
 gradle-app.setting

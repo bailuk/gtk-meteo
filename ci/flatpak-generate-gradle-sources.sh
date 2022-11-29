@@ -17,7 +17,8 @@ set -e
 # You may want to modify these variables
 # Where the sources json file should be generated:
 
-test -f gradlew || cd ..
+# Original Script: https://github.com/TobTobXX/flatpak-builder-tools/tree/master/gradle
+
 test -f gradlew || cd ..
 test -f gradlew || exit 1
 
@@ -35,22 +36,15 @@ REPO_BASEURL=(
 	'https://jitpack.io/'
 )
 
-# Manually specify dependencies that aren't getting cached for some reason:
-MANUAL_ARTIFACTS=(
-	# 'groupIdT1/groupId2/groupId3/artifactId/version/artifactId-version.pom'
-	# 'groupIdT1/groupId2/groupId3/artifactId/version/artifactId-version.jar'
-)
-
-
 gradle_user_home="${PROJECT_ROOT}/build/gradle_flatpak"
 maven_repo="${PROJECT_ROOT}/build/maven_flatpak"
 
 mkdir -p $gradle_user_home
 mkdir -p $maven_repo
 
-# Let gradle fetch all the dependencies into a new clean gradle user home:
+echo "_"
 echo "Downloading all dependencies into ${gradle_user_home}"
-./gradlew -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=3128 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=3128 -g "$gradle_user_home" "$TARGET" --no-daemon -q
+./gradlew -g "$gradle_user_home" "$TARGET" --no-daemon -q
 
 cd "$gradle_user_home/caches/modules-2/files-2.1" || exit 1
 
@@ -58,7 +52,7 @@ cd "$gradle_user_home/caches/modules-2/files-2.1" || exit 1
 # https://gist.github.com/danieldietrich/76e480f3fb903bdeaac5b1fb007ab5ac
 # Thank you Daniel Dietrich!
 
-echo "Transforms gradle cache paths to maven repo paths"
+# Transforms gradle cache paths to maven repo paths
 function mavenize {
   IFS='/' read -r -a paths <<< "$1"
 	groupId=$(echo "${paths[1]}" | tr . /)
@@ -67,6 +61,7 @@ function mavenize {
 	echo "$groupId/$artifactId/$version"
 }
 
+echo "_"
 echo "Copy every file from the cache to it's maven repo location"
 find . -type f -print0 | while IFS= read -r -d '' file; do
 	filename=$(basename "$file")
@@ -75,6 +70,7 @@ find . -type f -print0 | while IFS= read -r -d '' file; do
 	mkdir -p "$target_dir" && cp "$source_dir/$filename" "$target_dir/"
 done
 
+echo "_"
 echo "All interesting files are now in the maven repo"
 echo "Create the json sources file"
 cd "$maven_repo"
@@ -82,28 +78,9 @@ cd "$maven_repo"
 json_file="$SOURCES_FILE"
 echo '[' > "$json_file"
 
-echo "Download the $MANUAL_ARTIFACTS manually"
-for dep in "${MANUAL_ARTIFACTS[@]}"; do
-	mkdir -p "$(dirname "$dep")"
-
-	success=0
-	for repo in "${REPO_BASEURL[@]}"; do
-		url="${repo}${dep}"
-		if curl "$url" --fail --output "$dep" -L &> /dev/null; then
-			success=1
-			break
-		fi
-	done
-	if [ $success -eq 0 ]; then
-		echo "ERROR: No repo contains manual dependency $dep"
-		exit 1
-	fi
-done
-
-echo "'find *' to not use the ./ prefix when appending to $REPO_BASEURL"
-
+echo "_"
+echo "Probe repository for each file and write source object to json"
 find * -type f -print0 | while IFS= read -r -d '' file; do
-	# Every repo if the resource exists there
 	url=''
 	for repo in "${REPO_BASEURL[@]}"; do
 		url_to_try="${repo}${file}"
@@ -116,8 +93,13 @@ find * -type f -print0 | while IFS= read -r -d '' file; do
 		echo "ERROR: No repo contains $file"
 		exit 1
 	fi
-  echo "$url -> $file ($hash)"
 	hash="$(sha256sum "$file" | cut -f 1 -d ' ')"
+
+	echo "_"
+  echo "$url"
+  echo "$hash"
+  echo "$file"
+
 	cat << HERE >> "$json_file"
 	{
 		"type": "file",
@@ -129,14 +111,13 @@ find * -type f -print0 | while IFS= read -r -d '' file; do
 HERE
 done
 
-
 # Remove last line in json file and replace with closing braces without comma
 head -n -1 "$json_file" > temp.json && mv temp.json "$json_file"
 echo '	}' >> "$json_file"
 # And close the json array
 echo ']' >> "$json_file"
 
-# Clean up maven repo too
 cd "$projectRoot"
 
-echo 'Finished. Success is unknown until observed.'
+echo "_"
+echo "Finished. Success is unknown until observed."
