@@ -5,7 +5,7 @@
 # generate 'flatpak/gradle-sources.json'
 ci/flatpak-generate-gradle-sources.sh
 
-# create flatpak distribution
+# create and run flatpak distribution
 ci/flatpak-create.sh
 ```
 
@@ -17,3 +17,16 @@ Downloading of dependencies is not possible.
 
 Solution:
 [Run Gradle generator script](https://github.com/flatpak/flatpak-builder-tools/pull/276)
+
+# Flatpak commands
+
+```bash
+# Open shell inside runtime
+flatpak run org.gnome.Sdk//43
+
+```
+
+# Flatpak examples
+
+https://github.com/flathub/org.gnome.gitlab.somas.Apostrophe/blob/master/org.gnome.gitlab.somas.Apostrophe.json
+https://github.com/flathub/org.ghidra_sre.Ghidra
