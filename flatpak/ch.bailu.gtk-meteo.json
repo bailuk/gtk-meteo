@@ -1,12 +1,12 @@
 {
   "app-id": "ch.bailu.gtk-meteo",
-  "runtime": "org.freedesktop.Platform",
-  "runtime-version": "22.08",
-  "sdk": "org.freedesktop.Sdk",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "43",
+  "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.openjdk11"
   ],
-  "command": "gtk-meteo.sh",
+  "command": "java -jar /app/lib/gtk-meteo.jar",
   "modules": [
     {
       "name": "openjdk",
@@ -27,11 +27,10 @@
         "gradle-sources.json"
       ],
       "build-commands": [
-        "pwd",
-        "find maven-local",
         "source /usr/lib/sdk/openjdk11/enable.sh && gradle build",
-        "install -D build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",
-        "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh"
+        "install -Dm644 build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",
+        "install -Dm644 src/main/resources/svg/app-icon.svg /app/share/icons/ch.bailu.gtk-meteo.svg",
+        "install -Dm644 flatpak/ch.bailu.gtk-meteo.desktop /app/share/applications/ch.bailu.gtk-meteo.desktop"
       ]
     }
   ],
@@ -40,9 +39,11 @@
     "--share=ipc",
     "--socket=wayland",
     "--socket=fallback-x11",
+    "--device=dri",
     "--env=GIO_EXTRA_MODULES=/app/lib/gio/modules",
     "--env=JAVA_HOME=/app/jre",
-    "--env=LIBO_FLATPAK=1"
+    "--env=LIBO_FLATPAK=1",
+    "--env=PATH=/app/bin:/app/jre/bin"
   ],
   "tags": [
     "nightly"

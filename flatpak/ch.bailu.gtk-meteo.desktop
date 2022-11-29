@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Exec=java -jar /app/lib/gtk-meteo.jar
+Name=GTK Meteo (Flatpak)
+Comment=Select location from map and show weather forecast
+Icon=/app/share/icons/ch.bailu.gtk-meteo.svg
