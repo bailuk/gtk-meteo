@@ -1,0 +1,15 @@
+name: Create flatpak
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    steps:
+      - uses: actions/checkout@v2
+      - run: apt-get install flatpak flatpak-builder
+      - run: ci/flatpak-create.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: flatpak
+          path: flatpak/build/gtk-meteo.flatpak
