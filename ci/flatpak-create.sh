@@ -6,4 +6,7 @@ cd flatpak || exit 1
 flatpak install flathub org.gnome.Platform//43 org.gnome.Sdk//43 org.freedesktop.Sdk.Extension.openjdk11/x86_64/22.08 || exit 1
 flatpak-builder --force-clean build ch.bailu.gtk-meteo.json || exit 1
 flatpak-builder --user --install --force-clean build ch.bailu.gtk-meteo.json || exit 1
-flatpak run ch.bailu.gtk-meteo || exit 1
+
+echo _
+echo Flatpak created and installed. To run:
+echo "'flatpak run ch.bailu.gtk-meteo || exit 1'"

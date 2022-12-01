@@ -4,7 +4,7 @@ import config.Keys
 import java.util.prefs.Preferences
 
 object Prefs {
-    private val prefs = Preferences.userRoot().node(this.javaClass.name)
+    private val prefs = Preferences.userRoot().node("gtk-meteo")
 
     fun putAutoCycle(value: Boolean) {
         prefs.putBoolean(Keys.AUTO_CYCLE, value)
