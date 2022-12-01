@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: apt-get install flatpak flatpak-builder
+      - run: sudo apt-get install flatpak flatpak-builder
       - run: ci/flatpak-create.sh
       - uses: actions/upload-artifact@v3
         with:
