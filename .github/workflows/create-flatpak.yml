@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt-get install flatpak flatpak-builder
-      - run: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      - run: sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - run: ci/flatpak-create.sh
       - uses: actions/upload-artifact@v3
         with:
