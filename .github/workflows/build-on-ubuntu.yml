@@ -15,7 +15,7 @@ jobs:
         run: ./gradlew build
 
       - name: Collect files for distribution
-        run: util/ci/collect-artifacts.sh gtk-meteo
+        run: ci/collect-artifacts.sh gtk-meteo
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
