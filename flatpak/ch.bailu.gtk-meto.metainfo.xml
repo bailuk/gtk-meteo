@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+    <id>ch.bailu.gtk-meteo</id>
+    <name>GTK Meteo</name>
+    <summary>Select location from map and show weather forecast</summary>
+    <metadata_license>MIT License</metadata_license>
+    <project_license>MIT License</project_license>
+    <launchable type="desktop-id">ch.bailu.gtk-meteo.desktop</launchable>
+    <description>
+        <p>
+            Select location from map and show weather forecast.
+            Map is using OSM map tiles.
+            Based on mapsforge and java-gtk
+        </p>
+    </description>
+    <url type="homepage">https://github.com/bailuk/gtk-meteo/</url>
+    <screenshots>
+        <screenshot type="default">
+            <caption>GTK Meteo</caption>
+            <image width="362" height="722">
+                https://raw.githubusercontent.com/bailuk/gtk-meteo/main/screenshot.png
+            </image>
+        </screenshot>
+    </screenshots>
+    <translation/>
+    <releases>
+        <release version="0.1.0" date="2022-08-05"/>
+    </releases>
+</component>
