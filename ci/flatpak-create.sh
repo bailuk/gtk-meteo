@@ -11,11 +11,13 @@ flatpak install flathub org.gnome.Platform//43 org.gnome.Sdk//43 org.freedesktop
 
 echo "_"
 echo "Build flatpak"
-flatpak-builder --force-clean build/build ch.bailu.gtk-meteo.json || exit 1
+flatpak-builder --force-clean build/build ch.bailu.gtk_meteo.json || exit 1
+
+export LANG=C # So we can google error messages
 
 echo "_"
 echo "Install flatpak"
-echo "flatpak-builder --user --install --force-clean build/build ch.bailu.gtk-meteo.json || exit 1"
+echo "flatpak-builder --user --install --force-clean build/build ch.bailu.gtk_meteo.json || exit 1"
 
 # Single-file bundle
 # https://unix.stackexchange.com/questions/695934/how-do-i-build-a-flatpak-package-file-from-a-flatpak-manifest
@@ -28,7 +30,7 @@ flatpak build-export build/export build/build || exit 1
 
 echo "_"
 echo "Build single-file bundle"
-flatpak build-bundle build/export build/gtk-meteo.flatpak "ch.bailu.gtk-meteo"
+flatpak build-bundle build/export build/gtk-meteo.flatpak "ch.bailu.gtk_meteo"
 
 echo "_"
 echo "Install single-file bundle"
@@ -36,4 +38,4 @@ echo "> flatpak install build/gtk-meteo.flatpak"
 
 echo "_"
 echo "Run flatpak"
-echo "> flatpak run ch.bailu.gtk-meteo"
+echo "> flatpak run ch.bailu.gtk_meteo"

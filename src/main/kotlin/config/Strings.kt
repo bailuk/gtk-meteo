@@ -5,7 +5,7 @@ import ch.bailu.gtk.type.Str
 object Strings {
     const val userAgent = "gtk-meteo"
 
-    val appID = Str("ch.bailu.gtk-meteo")
+    val appID = Str("ch.bailu.gtk_meteo")
     val appTitle = Str("GTK Meteo")
     val version = Str("v0.1.0")
 

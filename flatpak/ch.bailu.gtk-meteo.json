@@ -1,5 +1,5 @@
 {
-  "app-id": "ch.bailu.gtk-meteo",
+  "app-id": "ch.bailu.gtk_meteo",
   "runtime": "org.gnome.Platform",
   "runtime-version": "43",
   "sdk": "org.gnome.Sdk",
@@ -29,8 +29,8 @@
       "build-commands": [
         "source /usr/lib/sdk/openjdk11/enable.sh && gradle build",
         "install -Dm644 build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",
-        "install -Dm644 src/main/resources/svg/app-icon.svg /app/share/icons/ch.bailu.gtk-meteo.svg",
-        "install -Dm644 flatpak/ch.bailu.gtk-meteo.desktop /app/share/applications/ch.bailu.gtk-meteo.desktop",
+        "install -Dm644 src/main/resources/svg/app-icon.svg /app/share/icons/hicolor/scalable/apps/ch.bailu.gtk_meteo.svg",
+        "install -Dm644 flatpak/ch.bailu.gtk_meteo.desktop /app/share/applications/ch.bailu.gtk_meteo.desktop",
         "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh"
       ]
     }
