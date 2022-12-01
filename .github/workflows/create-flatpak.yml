@@ -11,7 +11,10 @@ jobs:
       - uses: actions/checkout@v2
       - run: sudo apt-get install flatpak flatpak-builder
       - run: sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-      - run: ci/flatpak-create.sh
+      - run: sudo flatpak install -y flathub org.gnome.Platform//43 org.gnome.Sdk//43 org.freedesktop.Sdk.Extension.openjdk11/x86_64/22.08
+      - run: flatpak-builder --force-clean build/build ch.bailu.gtk_meteo.json
+      - run: flatpak build-export build/export build/build
+      - run: flatpak build-bundle build/export build/gtk-meteo.flatpak "ch.bailu.gtk_meteo"
       - uses: actions/upload-artifact@v3
         with:
           name: flatpak

@@ -9,7 +9,7 @@ export LANG=C # So we can google error messages
 
 echo "_"
 echo "Install dependencies"
-flatpak install -y flathub org.gnome.Platform//43 org.gnome.Sdk//43 org.freedesktop.Sdk.Extension.openjdk11/x86_64/22.08 || exit 1
+flatpak install flathub org.gnome.Platform//43 org.gnome.Sdk//43 org.freedesktop.Sdk.Extension.openjdk11/x86_64/22.08 || exit 1
 
 echo "_"
 echo "Build flatpak"
