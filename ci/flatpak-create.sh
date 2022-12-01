@@ -32,8 +32,8 @@ flatpak build-bundle build/export build/gtk-meteo.flatpak "ch.bailu.gtk-meteo"
 
 echo "_"
 echo "Install single-file bundle"
-echo "flatpak install build/gtk-meteo.flatpak"
+echo "> flatpak install build/gtk-meteo.flatpak"
 
 echo "_"
 echo "Run flatpak"
-echo "'flatpak run ch.bailu.gtk-meteo || exit 1'"
+echo "> flatpak run ch.bailu.gtk-meteo"

@@ -22,7 +22,7 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "branch": "dev/flatpak"
+          "branch": "stage"
         },
         "gradle-sources.json"
       ],
