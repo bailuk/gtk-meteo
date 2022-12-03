@@ -7,7 +7,7 @@ object Strings {
 
     val appID = Str("ch.bailu.gtk_meteo")
     val appTitle = Str("GTK Meteo")
-    val version = Str("v0.1.0")
+    val version = Str("v0.2.0")
 
     val copyright = Str(
         """
