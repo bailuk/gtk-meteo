@@ -1,7 +1,6 @@
 package controller
 
 import ch.bailu.gtk.gtk.Spinner
-import ch.bailu.gtk.type.Str
 import model.Model
 import org.mapsforge.core.model.LatLong
 import org.mapsforge.map.gtk.view.MapView
@@ -82,7 +81,7 @@ object Controller {
 
     fun search(search: String) {
         if (search.isNotEmpty()) {
-            rest.search(search) { it ->
+            rest.search(search) {
                 if (it.ok) {
                     Model.updateSearchResult(it.json)
                     Model.search.withFirst { _, latLong ->
@@ -108,6 +107,10 @@ object Controller {
 
     fun selectNextSlot() {
         slot.selectNext()
+        if (Prefs.getAutoCycle()) {
+            showPlace()
+        }
+
         Model.notify(slot.selected)
     }
 
@@ -131,6 +134,9 @@ object Controller {
 
     fun selectSlot(index: Int) {
         slot.select(index)
+        if (Prefs.getAutoCycle()) {
+            showPlace()
+        }
         Model.notify(slot.selected)
     }
 

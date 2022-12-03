@@ -1,6 +1,5 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Orientation
 import config.Layout
@@ -20,7 +19,7 @@ class Days(private val dayDetail: Hours) {
         for (i in 0 until DAYS) {
             val day = Day()
             day.button.onToggled {
-                if (GTK.IS(day.button.active)) {
+                if (day.button.active) {
                     selectDay(i)
                 } else {
                     unselectDay()
@@ -48,14 +47,14 @@ class Days(private val dayDetail: Hours) {
 
     private fun selectDay(index: Int) {
         days.forEachIndexed { i, day ->
-            if (i != index) day.button.active = GTK.FALSE
+            if (i != index) day.button.active = false
         }
         dayDetail.selectDay(getSelectedDay())
     }
 
     private fun getSelectedDay(): Int {
         days.forEachIndexed { index, day ->
-            if (GTK.IS(day.button.active)) {
+            if (day.button.active) {
                 return index
             }
         }

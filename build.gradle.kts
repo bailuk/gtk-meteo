@@ -5,7 +5,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 
     // https://kotlinlang.org/docs/gradle.html#targeting-the-jvm
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.7.21"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -15,6 +15,8 @@ repositories {
     maven { url = uri("https://jitpack.io") }
     mavenCentral()
     mavenLocal()
+    gradlePluginPortal()
+    maven { url = uri("maven-local") }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

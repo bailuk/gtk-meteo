@@ -1,6 +1,5 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.*
 import ch.bailu.gtk.gtk.Window
 import config.Strings
@@ -17,16 +16,16 @@ object About {
             licenseType = License.MIT_X11
             titlebar = createHeaderBar(this)
             transientFor = window
-            modal = GTK.TRUE
+            modal = true
             show()
         }
     }
 
     private fun createHeaderBar(aboutDialog: AboutDialog): HeaderBar {
         return HeaderBar().apply {
-             showTitleButtons = GTK.FALSE
+             showTitleButtons = false
              packEnd(Button().apply {
-                 label = Strings.close
+                 setLabel(Strings.close)
                  onClicked {
                      aboutDialog.close()
                  }

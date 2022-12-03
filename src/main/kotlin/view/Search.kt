@@ -1,16 +1,15 @@
 package view
 
+import ch.bailu.gtk.gio.Menu
 import ch.bailu.gtk.gtk.*
-import ch.bailu.gtk.type.Str
+import ch.bailu.gtk.lib.handler.action.ActionHandler
 import config.Layout
 import config.Strings
 import controller.Controller
 import lib.extension.ellipsize
-import lib.menu.Actions
-import lib.menu.MenuModelBuilder
 import model.Model
 
-class Search(private val actions: Actions) {
+class Search(private val app: Application) {
     val box = Box(Orientation.HORIZONTAL, 0).apply {
         halign = Align.START
         valign = Align.START
@@ -18,7 +17,7 @@ class Search(private val actions: Actions) {
         marginTop = Layout.margin
         marginStart = Layout.margin
 
-        val entry = SearchEntry()
+        val entry = Entry()
         append(entry.apply {
 
             onActivate {
@@ -26,22 +25,26 @@ class Search(private val actions: Actions) {
             }
         })
 
-        append(Button.newFromIconNameButton(Str("edit-find-symbolic")).apply {
+        append(Button.newFromIconNameButton("edit-find-symbolic").apply {
             onClicked {
                 Controller.search(Editable(entry.cast()).text.toString())
             }
         })
 
         append(MenuButton().apply {
-            iconName = Str("view-more-symbolic")
+            setIconName("view-more-symbolic")
             Model.observeSearch {
-                menuModel = MenuModelBuilder().apply {
+                menuModel = Menu().apply {
+                    var i = 0
                     it.forEach { name, latLong ->
-                        label(name.ellipsize(30)) {
+                        append(name.ellipsize(30), "app.search-result$i")
+                        i++
+                        ActionHandler.get(app, "search-result$i").disconnectSignals()
+                        ActionHandler.get(app, "search-result$i").onActivate { ->
                             Controller.centerMap(latLong)
                         }
                     }
-                }.create(actions)
+                }
             }
         })
     }

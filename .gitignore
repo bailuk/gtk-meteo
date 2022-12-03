@@ -28,6 +28,7 @@ buildNumber.properties
 
 # Gradle
 build/
+maven-local/
 .gradle
 .gradletasknamecache
 gradle-app.setting
@@ -71,6 +72,9 @@ nb-configuration.xml
 # Mac OS X / Windows
 *.DS_Store
 Thumbs.db
+
+# Flatpak
+.flatpak-builder/
 
 # Development
 todo/

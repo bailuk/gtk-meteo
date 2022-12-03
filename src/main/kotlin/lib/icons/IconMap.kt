@@ -3,7 +3,7 @@ package lib.icons
 import ch.bailu.gtk.gdk.Paintable
 import ch.bailu.gtk.gdkpixbuf.Pixbuf
 import ch.bailu.gtk.gtk.Image
-import ch.bailu.gtk.bridge.Image as ImageBridge
+import ch.bailu.gtk.lib.bridge.Image as ImageBridge
 
 object IconMap {
     private data class IconId (val name: String, val size: Int)

@@ -1,27 +1,30 @@
 package view
 
-import ch.bailu.gtk.GTK
+import ch.bailu.gtk.glib.Glib
 import ch.bailu.gtk.gtk.*
+import ch.bailu.gtk.lib.bridge.CSS
+import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
 import config.Files
+import config.Keys
 import config.Layout
 import config.Strings
 import controller.Controller
-import lib.css.CSS
-import lib.menu.Actions
+import controller.Prefs
 import kotlin.system.exitProcess
 
 class Window(app: Application) {
+    companion object {
+        const val MESSAGE_TIMEOUT = 8
+    }
     private val window = ApplicationWindow(app)
 
     init {
-        val actions = Actions(app)
-
         val box = Box(Orientation.VERTICAL, 0)
         val place = Place()
         val hours = Hours()
         val days = Days(hours)
-        val header = Header(window, actions)
+        val header = Header(app)
         val map = Map()
         val overlay = Overlay()
 
@@ -34,27 +37,38 @@ class Window(app: Application) {
         CSS.addProviderForDisplay(window.display, Files.appCss)
         box.append(place.box)
         box.append(days.icons)
-        box.append(hours.scroller)
+        box.append(hours.revealer)
 
-        box.append(InfoBar().apply {
-            showCloseButton = GTK.TRUE
-            val label = Label(Str.NULL)
-            addChild(label)
-            messageType = MessageType.ERROR
-            onResponse { hide() }
+        box.append(Revealer().apply {
+            val label = Label(Str.NULL).apply {
+                wrapMode = WrapMode.CHAR
+                wrap = true
+                addCssClass("error-message")
+            }
+
+            child = label
+            var timers = 0
 
             Controller.showError = { message ->
-                if (message.isEmpty()) {
-                    hide()
+                revealChild = if (message.isEmpty()) {
+                    false
                 } else {
-                    label.text = Str(message)
-                    show()
+                    label.setText(message)
+                    timers ++ // Ignore previous timeouts
+                    Glib.timeoutAddSeconds(MESSAGE_TIMEOUT, { _self, _ ->
+                        timers--
+                        if (timers == 0) { // Ignore if there is another timer active
+                            Controller.showError("")
+                        }
+                        _self.unregister() // Remove reference to callback (for garbage collection)
+                        false // Do not call again
+                    }, null)
+                    true
                 }
             }
-            visible = GTK.FALSE
         })
 
-        overlay.addOverlay(Search(actions).box)
+        overlay.addOverlay(Search(app).box)
         overlay.addOverlay(Navigation().box)
         overlay.addOverlay(Select().box)
         overlay.addOverlay(Spinner().box)
@@ -72,6 +86,12 @@ class Window(app: Application) {
             exitProcess(0)
         }
 
+        ActionHandler.get(app, Keys.ABOUT).onActivate { ->
+            About.show(window)
+        }
+        ActionHandler.get(app, Keys.AUTO_CYCLE, Prefs.getAutoCycle()).onToggle {
+            Prefs.putAutoCycle(it)
+        }
         window.show()
     }
 }

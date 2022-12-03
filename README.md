@@ -1,4 +1,4 @@
-[![Build on debian](https://github.com/bailuk/gtk-meteo/actions/workflows/build-on-debian.yml/badge.svg)](https://github.com/bailuk/gtk-meteo/actions/workflows/build-on-debian.yml)
+[![Build on Ubuntu](https://github.com/bailuk/gtk-meteo/actions/workflows/build-on-ubuntu.yml/badge.svg)](https://github.com/bailuk/gtk-meteo/actions/workflows/build-on-ubuntu.yml)
 
 # GTK Meteo
 Weather forecast application based on [mapsforge-gtk](https://github.com/bailuk/mapsforge-gtk) and [java-gtk](https://github.com/bailuk/java-gtk).

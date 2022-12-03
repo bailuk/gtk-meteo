@@ -1,6 +1,5 @@
 package controller
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.glib.Glib
 import config.Strings
 import okhttp3.*
@@ -35,6 +34,7 @@ class RestClient(val file: File, private val start: String = "", private val end
                 downloads--
                 ok = false
 
+                Controller.showError("Failed to download from '$url'")
                 callBack(observer)
             }
 
@@ -52,9 +52,10 @@ class RestClient(val file: File, private val start: String = "", private val end
     }
 
     private fun callBack(observer: (RestClient)->Unit) {
-        Glib.idleAdd({
+        Glib.idleAdd({ self, _ ->
             observer(this@RestClient)
-            GTK.FALSE
+            self.unregister()
+            false
         }, null)
 
     }

@@ -1,24 +1,17 @@
-name: Build on ubuntu
+name: Build on Ubuntu
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Build with Gradle
-        run: ./gradlew build
-
-      - name: Collect files for distribution
-        run: ci/collect-artifacts.sh gtk-meteo
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - uses: actions/checkout@v2
+      - run: ./gradlew build
+      - run: ci/collect-artifacts.sh gtk-meteo
+      - uses: actions/upload-artifact@v3
         with:
           name: gtk-meteo
           path: gtk-meteo

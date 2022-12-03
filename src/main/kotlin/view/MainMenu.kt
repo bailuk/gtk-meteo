@@ -1,16 +1,18 @@
 package view
 
+import ch.bailu.gtk.gio.Menu
+import ch.bailu.gtk.gtk.Application
 import ch.bailu.gtk.gtk.MenuButton
 import ch.bailu.gtk.gtk.Window
+import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
+import config.Keys
 import config.Strings
 import controller.Controller
 import lib.extension.ellipsize
-import lib.menu.Actions
-import lib.menu.MenuModelBuilder
 import model.Model
 
-class MainMenu(window: Window, actions: Actions) {
+class MainMenu(app: Application) {
     private var places = ArrayList<String>()
 
     val menuButton = MenuButton().apply {
@@ -19,16 +21,23 @@ class MainMenu(window: Window, actions: Actions) {
             val newPlaces = loadPlaces()
             if (!comparePlaces(places, newPlaces)) {
                 places = newPlaces
-                menuModel = MenuModelBuilder().apply {
-                    places.forEachIndexed { index, element ->
-                        label(element) {
-                            Controller.selectSlot(index)
+
+                menuModel = Menu().apply {
+
+                    appendSection(Str.NULL, Menu().apply {
+                        places.forEachIndexed { index, element ->
+                            append(element, "app.${Keys.SLOT}$index")
+                            ActionHandler.get(app, "${Keys.SLOT}$index").disconnectSignals()
+                            ActionHandler.get(app, "${Keys.SLOT}$index").onActivate { ->
+                                Controller.selectSlot(index)
+                            }
                         }
-                    }
-                    separator("", MenuModelBuilder().label(Strings.info) {
-                        About.show(window)
                     })
-                }.create(actions)
+                    appendSection(Str.NULL, Menu().apply {
+                        append(Strings.autoCenter, "app.${Keys.AUTO_CYCLE}")
+                        append(Strings.info, "app.${Keys.ABOUT}")
+                    })
+                }
             }
         }
     }

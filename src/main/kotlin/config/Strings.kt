@@ -5,9 +5,9 @@ import ch.bailu.gtk.type.Str
 object Strings {
     const val userAgent = "gtk-meteo"
 
-    val appID = Str("ch.bailu.gtk-meteo")
+    val appID = Str("ch.bailu.gtk_meteo")
     val appTitle = Str("GTK Meteo")
-    val version = Str("v0.1.0")
+    val version = Str("v0.2.0")
 
     val copyright = Str(
         """
@@ -20,8 +20,9 @@ object Strings {
     val website = Str("https://github.com/bailuk/gtk-meteo")
 
     // UX
-    val close = Str("Close")
+    const val close = "Close"
     const val info = "Info…"
+    const val autoCenter = "Center map when changing place"
 
     // CSS
     val linked = Str("linked")

@@ -21,5 +21,5 @@ object Files {
         return File(configDirectory, jsonName)
     }
 
-    const val appCss = "app.css"
+    const val appCss = "/app.css"
 }

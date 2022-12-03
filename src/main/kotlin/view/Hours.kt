@@ -1,8 +1,8 @@
 package view
 
-import ch.bailu.gtk.GTK
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Orientation
+import ch.bailu.gtk.gtk.Revealer
 import ch.bailu.gtk.gtk.ScrolledWindow
 import config.Layout
 import controller.Controller
@@ -12,7 +12,8 @@ class Hours {
     companion object {
         const val HOURS = 24
     }
-    val scroller = ScrolledWindow()
+    val revealer = Revealer()
+    private val scroller = ScrolledWindow()
     private val box = Box(Orientation.HORIZONTAL, Layout.margin)
     private val hours = ArrayList<Hour>()
     private var selected = -1
@@ -29,19 +30,19 @@ class Hours {
         scroller.marginEnd = Layout.margin
         scroller.child = box
         scroller.minContentHeight = 75
-        scroller.visible = GTK.FALSE
 
+        revealer.child = scroller
         Model.observeDays { days, index ->
             if (selected > -1 && Controller.isSelectedSlot(index)) {
                 var count = -1
                 days.days[selected].forEachSample { sample->
                     if (++count < HOURS) {
                         hours[count].update(sample)
-                        hours[count].box.visible = GTK.TRUE
+                        hours[count].box.visible = true
                     }
                 }
                 while(++count < HOURS) {
-                    hours[count].box.visible = GTK.FALSE
+                    hours[count].box.visible = false
                 }
             }
         }
@@ -51,9 +52,9 @@ class Hours {
         if (selected != index) {
             selected = index
             if (selected < 0) {
-                scroller.visible = GTK.FALSE
+                revealer.revealChild = false
             } else {
-                scroller.visible = GTK.TRUE
+                revealer.revealChild = true
                 Controller.notifySelectedSlot()
             }
         }
