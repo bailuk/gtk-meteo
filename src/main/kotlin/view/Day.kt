@@ -1,7 +1,6 @@
 package view
 
 import ch.bailu.gtk.gtk.*
-import ch.bailu.gtk.type.CPointer
 import ch.bailu.gtk.type.Str
 import config.Strings
 import lib.icons.IconMap
@@ -14,10 +13,10 @@ class Day {
     }
     private val box = Box(Orientation.VERTICAL, 0)
 
-    private val day = Label(Str(CPointer.NULL))
+    private val day = Label(Str.NULL)
     private val icon = Image()
-    private val min = Label(Str(CPointer.NULL))
-    private val max = Label(Str(CPointer.NULL))
+    private val min = Label(Str.NULL)
+    private val max = Label(Str.NULL)
 
     val button = ToggleButton()
 
