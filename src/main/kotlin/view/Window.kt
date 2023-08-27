@@ -1,7 +1,14 @@
 package view
 
 import ch.bailu.gtk.glib.Glib
-import ch.bailu.gtk.gtk.*
+import ch.bailu.gtk.gtk.Application
+import ch.bailu.gtk.gtk.ApplicationWindow
+import ch.bailu.gtk.gtk.Box
+import ch.bailu.gtk.gtk.Label
+import ch.bailu.gtk.gtk.Orientation
+import ch.bailu.gtk.gtk.Overlay
+import ch.bailu.gtk.gtk.Revealer
+import ch.bailu.gtk.gtk.WrapMode
 import ch.bailu.gtk.lib.bridge.CSS
 import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
@@ -33,6 +40,7 @@ class Window(app: Application) {
 
         window.title = Strings.appTitle
         window.titlebar = header.headerBar
+        window.iconName = Strings.appID
 
         CSS.addProviderForDisplay(window.display, Files.appCss)
         box.append(place.box)

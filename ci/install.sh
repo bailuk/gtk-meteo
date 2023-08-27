@@ -9,7 +9,7 @@ Options:
 
 # general
 app="gtk-meteo"
-app_id="ch.bailu.${app}"
+app_id="ch.bailu.gtk_meteo"
 app_comment="Select location from map and show weather forecast"
 app_name="GTK Meteo"
 jar="${app}-all.jar"
@@ -34,7 +34,7 @@ done
 # source
 if [ -f $jar ]; then
   source_jar=$jar
-  source_icon=app-icon.svg
+  source_icon="${app_id}.svg"
 else
   source_jar="$build/$jar"
   source_icon="src/main/resources/svg/app-icon.svg"
@@ -45,19 +45,29 @@ fi
 # destination
 if [ -n "$remote" ]; then
   echo ">> install on '$remote'"
-  home=$(ssh $remote pwd)
+  home=$(ssh $remote echo '$HOME')
+  xdg_data_home=$(ssh $remote echo '$XDG_DATA_HOME')
   cmd="ssh $remote"
   copy="scp"
   tor="$remote:"
 else
   echo ">> install for '$(whoami)'"
   home=$HOME
+  xdg_data_home=$XDG_DATA_HOME
   cmd="/bin/sh -c"
   copy="cp -v"
   tor=""
 fi
 
-desktop="${home}/.local/share/applications/${app_id}.desktop"
+# icon and desktop path
+if [ "$xdg_data_home" = "" ]; then
+  xdg_data_home="$home/.local/share"
+fi
+icon_path="${xdg_data_home}/icons/hicolor/scalable/apps"
+desktop_path="${xdg_data_home}/applications/"
+
+desktop="${desktop_path}/${app_id}.desktop"
+icon="${icon_path}/${app_id}.svg"
 data="${home}/.config/${app}"
 
 # build
@@ -68,20 +78,15 @@ fi
 
 # install
 if [ "$option_install" = "" ]; then
+  $cmd mkdir -p ${icon_path}
+  $cmd mkdir -p ${desktop_path}
   $cmd "test -d ${data} || mkdir ${data}" || exit 1
   $copy $source_jar "${tor}${data}/${app}.jar"  || exit 1
-  $copy $source_icon "${tor}${data}/${app}.svg" || exit 1
+  $copy $source_icon "${tor}${icon}" || exit 1
 
   echo "create '${desktop}'"
-  $cmd "cat > ${desktop}" << EOF
-[Desktop Entry]
-Type=Application
-Terminal=false
-Exec=java -jar ${data}/${app}.jar
-Name=${app_name}
-Comment=${app_comment}
-Icon=${data}/${app}.svg
-EOF
+  $copy flatpak/${app_id}.desktop "${tor}${desktop}"
+  $cmd sed -i "'s+Exec.*+Exec=java -jar ${data}/${app}.jar+'" ${desktop}
 
   $cmd "chmod 700 ${desktop}" || exit 1
 fi
