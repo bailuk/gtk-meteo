@@ -1,21 +1,19 @@
 #!/bin/sh
 
-help="Installs application for logged in user or for user on ssh host
-Usage: ./install.sh [--build] [--run] [--help] [user@ssh_host]
+app_name="gtk-meteo"
+app_id="ch.bailu.gtk_meteo"
+help="Installs '${app_name}' with id '${app_id}' for logged in user or for user on ssh host
+Usage: ./install.sh [--build] [--run] [--no-install] [--dry] [--help] [user@ssh_host]
 Options:
   --build: build first
   --run: run after installation
-  usar@ssh_host: install on a remote device"
-
-# general
-app="gtk-meteo"
-app_id="ch.bailu.gtk_meteo"
-app_comment="Select location from map and show weather forecast"
-app_name="GTK Meteo"
-jar="${app}-all.jar"
-build="build/libs/"
+  --no-install: do not install
+  --dry: only print commands to console
+  user@ssh_host: install on a remote device"
 
 # arguments
+option_install="--install"
+dry=""
 for i in "$@"; do
   if [ "$i" = "--help" ]; then
     echo "$help"
@@ -25,25 +23,37 @@ for i in "$@"; do
   elif [ "$i" = "--build" ]; then
     option_build="$i"
   elif [ "$i" = "--no-install" ]; then
-    option_install="$1"
+    option_install=""
+  elif [ "$i" = "--dry" ]; then
+    dry="echo"
   else
     remote="$i"
   fi
 done
 
-# source
-if [ -f $jar ]; then
-  source_jar=$jar
-  source_icon="${app_id}.svg"
-else
-  source_jar="$build/$jar"
-  source_icon="src/main/resources/svg/app-icon.svg"
+
+
+# source from distribution
+src_jar="${app_name}-all.jar"
+src_meta="${app_id}.metainfo.xml"
+src_desktop="${app_id}.desktop"
+src_icon="app-icon.svg"
+
+# source from build
+if [ ! -f $src_jar ]; then
+  src_jar="build/libs/${src_jar}"
+  src_icon="src/main/resources/svg/${src_icon}"
+  src_meta="flatpak/${src_meta}"
+  src_desktop="flatpak/${src_desktop}"
   test -d gradle || cd ..
   test -d gradle || cd ..
 fi
 
-# destination
+
+# installation type
 if [ -n "$remote" ]; then
+  option_install_type="--remote"
+
   echo ">> install on '$remote'"
   home=$(ssh $remote echo '$HOME')
   xdg_data_home=$(ssh $remote echo '$XDG_DATA_HOME')
@@ -51,51 +61,71 @@ if [ -n "$remote" ]; then
   copy="scp"
   tor="$remote:"
 else
-  echo ">> install for '$(whoami)'"
-  home=$HOME
-  xdg_data_home=$XDG_DATA_HOME
+  if [ "$(id -u)" = "0" ]; then
+    option_install_type="--system"
+    echo ">> install system wide"
+  else
+    option_install_type="--local"
+    echo ">> install for '$(whoami)'"
+    home=$HOME
+    xdg_data_home=$XDG_DATA_HOME
+  fi
+
   cmd="/bin/sh -c"
   copy="cp -v"
   tor=""
 fi
 
-# icon and desktop path
+# set directory path for icon, desktop-file and jar
 if [ "$xdg_data_home" = "" ]; then
   xdg_data_home="$home/.local/share"
 fi
-icon_path="${xdg_data_home}/icons/hicolor/scalable/apps"
-desktop_path="${xdg_data_home}/applications/"
 
-desktop="${desktop_path}/${app_id}.desktop"
-icon="${icon_path}/${app_id}.svg"
-data="${home}/.config/${app}"
+if [ "${option_install_type}" = "--system" ]; then
+  path_jar="/usr/share/${app_name}"
+  path_icon="/usr/share/icons/hicolor/scalable/apps"
+  path_desktop="/usr/share/applications"
+  path_meta="usr/share/metainfo"
+else
+  path_jar="${home}/.config/${app_name}"
+  path_icon="${xdg_data_home}/icons/hicolor/scalable/apps"
+  path_desktop="${xdg_data_home}/applications"
+fi
+
+# set destination file-paths
+dst_desktop="${path_desktop}/${app_id}.desktop"
+dst_icon="${path_icon}/${app_id}.svg"
+dst_jar="${path_jar}/${app_name}.jar"
+dst_meta=${path_meta}/${app_id}.metainfo.xml
+java_cmd="java -jar ${dst_jar}"
 
 # build
-if [ "$option_build" = "--build" ]; then
+if [ "${option_build}" = "--build" ]; then
     echo ">> build"
-    ./gradlew build || exit 1
+    $dry ./gradlew build                                          || exit 1
 fi
 
 # install
-if [ "$option_install" = "" ]; then
-  $cmd mkdir -p ${icon_path}
-  $cmd mkdir -p ${desktop_path}
-  $cmd "test -d ${data} || mkdir ${data}" || exit 1
-  $copy $source_jar "${tor}${data}/${app}.jar"  || exit 1
-  $copy $source_icon "${tor}${icon}" || exit 1
+if [ "${option_install}" = "--install" ]; then
+  if [ "${option_install_type}" = "--system" ]; then
+    $dry $cmd "mkdir -p ${path_meta}"
+    $dry $copy ${src_meta} "${tor}${dst_meta}"                    || exit 1
+  fi
 
-  echo "create '${desktop}'"
-  $copy flatpak/${app_id}.desktop "${tor}${desktop}"
-  $cmd sed -i "'s+Exec.*+Exec=java -jar ${data}/${app}.jar+'" ${desktop}
-
-  $cmd "chmod 700 ${desktop}" || exit 1
+  $dry $cmd "mkdir -p ${path_icon}"                               || exit 1
+  $dry $cmd "mkdir -p ${path_desktop}"                            || exit 1
+  $dry $cmd "mkdir -p ${path_jar}"                                || exit 1
+  $dry $copy $src_jar "${tor}${dst_jar}"                          || exit 1
+  $dry $copy $src_icon "${tor}${dst_icon}"                        || exit 1
+  $dry $copy $src_desktop "${tor}${dst_desktop}"                  || exit 1
+  $dry $cmd "sed -i 's+Exec.*+Exec=${java_cmd}+' ${dst_desktop}"  || exit 1
+  $dry $cmd "chmod 700 ${dst_desktop}"                            || exit 1
 fi
 
 # run
 if [ "$option_run" = "--run" ]; then
-  java_cmd="java -jar ${data}/${app}.jar"
   echo ">> run '$java_cmd'"
-  $cmd "$java_cmd" || exit 1
+  $dry $cmd "$java_cmd"                                           || exit 1
 fi
 
 exit 0
