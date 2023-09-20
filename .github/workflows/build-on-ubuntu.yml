@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ./gradlew build
-      - run: ci/collect-artifacts.sh gtk-meteo
+      - run: ci/collect-artifacts.sh gtk-meteo/gtk-meteo
       - uses: actions/upload-artifact@v3
         with:
           name: gtk-meteo

@@ -12,7 +12,7 @@ Options:
   user@ssh_host: install on a remote device"
 
 # arguments
-option_install="--install"
+option_install="--local"
 dry=""
 for i in "$@"; do
   if [ "$i" = "--help" ]; then
@@ -23,15 +23,23 @@ for i in "$@"; do
   elif [ "$i" = "--build" ]; then
     option_build="$i"
   elif [ "$i" = "--no-install" ]; then
-    option_install=""
+    option_install="$i"
   elif [ "$i" = "--dry" ]; then
     dry="echo"
+  elif [ "$i" = "--system" ]; then
+    option_install="$i"
   else
-    remote="$i"
+    target="$i"
   fi
 done
 
-
+if [ "${option_install}" = "--local" ]; then
+  if [ -n "$target" ]; then
+    option_install="--remote"
+  elif [ "$(id -u)" = "0" ]; then
+    option_install="--system"
+  fi
+fi
 
 # source from distribution
 src_jar="${app_name}-all.jar"
@@ -51,21 +59,18 @@ fi
 
 
 # installation type
-if [ -n "$remote" ]; then
-  option_install_type="--remote"
-
+if [ "${option_install}" = "--remote" ]; then
   echo ">> install on '$remote'"
-  home=$(ssh $remote echo '$HOME')
-  xdg_data_home=$(ssh $remote echo '$XDG_DATA_HOME')
-  cmd="ssh $remote"
+  home=$(ssh $target echo '$HOME')
+  xdg_data_home=$(ssh $target echo '$XDG_DATA_HOME')
+  cmd="ssh $target"
   copy="scp"
-  tor="$remote:"
+  tor="$target:"
 else
-  if [ "$(id -u)" = "0" ]; then
-    option_install_type="--system"
+  if [ "${option_install}" = "--system" ]; then
     echo ">> install system wide"
-  else
-    option_install_type="--local"
+
+  elif [ "${option_install}" = "--local" ]; then
     echo ">> install for '$(whoami)'"
     home=$HOME
     xdg_data_home=$XDG_DATA_HOME
@@ -81,11 +86,11 @@ if [ "$xdg_data_home" = "" ]; then
   xdg_data_home="$home/.local/share"
 fi
 
-if [ "${option_install_type}" = "--system" ]; then
-  path_jar="/usr/share/${app_name}"
-  path_icon="/usr/share/icons/hicolor/scalable/apps"
-  path_desktop="/usr/share/applications"
-  path_meta="usr/share/metainfo"
+if [ "${option_install}" = "--system" ]; then
+  path_jar="${target}/usr/share/${app_name}"
+  path_icon="${target}/usr/share/icons/hicolor/scalable/apps"
+  path_desktop="${target}/usr/share/applications"
+  path_meta="${target}/usr/share/metainfo"
 else
   path_jar="${home}/.config/${app_name}"
   path_icon="${xdg_data_home}/icons/hicolor/scalable/apps"
@@ -106,8 +111,8 @@ if [ "${option_build}" = "--build" ]; then
 fi
 
 # install
-if [ "${option_install}" = "--install" ]; then
-  if [ "${option_install_type}" = "--system" ]; then
+if [ "${option_install}" != "--no-install" ]; then
+  if [ "${option_install}" = "--system" ]; then
     $dry $cmd "mkdir -p ${path_meta}"
     $dry $copy ${src_meta} "${tor}${dst_meta}"                    || exit 1
   fi
