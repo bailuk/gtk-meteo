@@ -28,4 +28,8 @@
         <release version="0.2.0" date="2022-12-03"/>
         <release version="0.1.0" date="2022-08-05"/>
     </releases>
+    <custom>
+        <value key="Purism::form_factor">workstation</value>
+        <value key="Purism::form_factor">mobile</value>
+    </custom>
 </component>

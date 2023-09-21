@@ -87,12 +87,14 @@ if [ "$xdg_data_home" = "" ]; then
 fi
 
 if [ "${option_install}" = "--system" ]; then
-  path_jar="${target}/usr/share/${app_name}"
+  path_cmd_jar="/usr/share/${app_name}"
+  path_jar="${target}${path_cmd_jar}"
   path_icon="${target}/usr/share/icons/hicolor/scalable/apps"
   path_desktop="${target}/usr/share/applications"
   path_meta="${target}/usr/share/metainfo"
 else
-  path_jar="${home}/.config/${app_name}"
+  path_cmd_jar="${home}/.config/${app_name}"
+  path_jar="${path_cmd_jar}"
   path_icon="${xdg_data_home}/icons/hicolor/scalable/apps"
   path_desktop="${xdg_data_home}/applications"
 fi
@@ -102,7 +104,7 @@ dst_desktop="${path_desktop}/${app_id}.desktop"
 dst_icon="${path_icon}/${app_id}.svg"
 dst_jar="${path_jar}/${app_name}.jar"
 dst_meta=${path_meta}/${app_id}.metainfo.xml
-java_cmd="java -jar ${dst_jar}"
+java_cmd="java -jar ${path_cmd_jar}/${app_name}.jar"
 
 # build
 if [ "${option_build}" = "--build" ]; then
@@ -124,7 +126,7 @@ if [ "${option_install}" != "--no-install" ]; then
   $dry $copy $src_icon "${tor}${dst_icon}"                        || exit 1
   $dry $copy $src_desktop "${tor}${dst_desktop}"                  || exit 1
   $dry $cmd "sed -i 's+Exec.*+Exec=${java_cmd}+' ${dst_desktop}"  || exit 1
-  $dry $cmd "chmod 700 ${dst_desktop}"                            || exit 1
+  $dry $cmd "chmod 755 ${dst_desktop}"                            || exit 1
 fi
 
 # run
