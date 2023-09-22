@@ -3,7 +3,6 @@ package view
 import ch.bailu.gtk.gio.Menu
 import ch.bailu.gtk.gtk.Application
 import ch.bailu.gtk.gtk.MenuButton
-import ch.bailu.gtk.gtk.Window
 import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
 import config.Keys

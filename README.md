@@ -20,7 +20,7 @@ Forecast data is from [Meteorologisk institutt Norge](https://www.met.no).
 - Run install script as user: `sh install.sh`
 
 ## Build
-- Install dependencies: `sudo apt install openjdk-11-jdk libgtk-4-dev`
+- Install dependencies: `sudo apt install openjdk-11-jdk libgtk-4`
 - Compile and run: `./gradlew run`
  
 ## License

@@ -19,7 +19,6 @@ class Search(private val app: Application) {
 
         val entry = Entry()
         append(entry.apply {
-
             onActivate {
                 Controller.search(Editable(cast()).text.toString())
             }
@@ -38,11 +37,11 @@ class Search(private val app: Application) {
                     var i = 0
                     it.forEach { name, latLong ->
                         append(name.ellipsize(30), "app.search-result$i")
-                        i++
                         ActionHandler.get(app, "search-result$i").disconnectSignals()
                         ActionHandler.get(app, "search-result$i").onActivate { ->
                             Controller.centerMap(latLong)
                         }
+                        i++
                     }
                 }
             }
