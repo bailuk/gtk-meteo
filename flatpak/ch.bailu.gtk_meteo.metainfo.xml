@@ -11,7 +11,8 @@
         <p>
             Select location from map and show weather forecast.
             Map is using OSM map tiles.
-            Based on mapsforge and java-gtk
+            Based on mapsforge and java-gtk.
+            Forecast data is from "Meteorologisk institutt Norge".
         </p>
     </description>
     <url type="homepage">https://github.com/bailuk/gtk-meteo/</url>
