@@ -16,7 +16,7 @@
       ]
     },
     {
-      "name": "gtk-weather",
+      "name": "gtk-meteo",
       "buildsystem": "simple",
       "sources": [
         {
@@ -48,8 +48,5 @@
     "--env=PATH=/app/bin:/app/jre/bin",
     "--filesystem=~/.config/gtk-meteo",
     "--filesystem=~/.java/.userPrefs/gtk-meteo"
-  ],
-  "tags": [
-    "nightly"
   ]
 }

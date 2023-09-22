@@ -7,11 +7,11 @@ object Strings {
 
     val appID = Str("ch.bailu.gtk_meteo")
     val appTitle = Str("GTK Meteo")
-    val version = Str("v0.2.0")
+    val version = Str("v0.2.1")
 
     val copyright = Str(
         """
-            © 2021, 2022 Lukas Bai, MIT License,
+            © 2021 - 2023 Lukas Bai, MIT License,
             © Map and data OSM contributors ODbL 1.0,
             © Icons and weather data MET Norway
         """.trimIndent()
