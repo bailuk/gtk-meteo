@@ -4,6 +4,7 @@ Type=Application
 Terminal=false
 Exec=/app/bin/gtk-meteo.sh
 Name=GTK Meteo
+StartupNotify=true
 Comment=Select location from map and show weather forecast
 Icon=ch.bailu.gtk_meteo
 X-Purism-FormFactor=Workstation;Mobile;
