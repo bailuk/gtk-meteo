@@ -1,10 +1,10 @@
 {
   "app-id": "ch.bailu.gtk_meteo",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "43",
+  "runtime-version": "46",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.openjdk11"
+    "org.freedesktop.Sdk.Extension.openjdk17"
   ],
   "command": "gtk-meteo.sh",
   "modules": [
@@ -22,7 +22,7 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "branch": "38c77c13cc763e884870b6b52a309c357514df5a"
+          "branch": "3fe3101a3ceca6ee68b1702e6ba22e65caa5a6df"
         },
         {
           "type": "file",

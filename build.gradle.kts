@@ -12,10 +12,9 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 java.targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
-    maven { url = uri("https://jitpack.io") }
     mavenCentral()
-    mavenLocal()
     gradlePluginPortal()
+    maven { url = uri("https://jitpack.io") }
     maven { url = uri("maven-local") }
 }
 
