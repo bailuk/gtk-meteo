@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- https://www.freedesktop.org/software/appstream/docs/ -->
-<component type="desktop">
+<component type="desktop-application">
     <id>ch.bailu.gtk_meteo</id>
     <name>GTK Meteo</name>
     <summary>Select location from map and show weather forecast</summary>

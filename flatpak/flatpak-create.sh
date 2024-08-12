@@ -19,7 +19,7 @@ fi
 
 echo "_"
 echo "Install dependencies"
-flatpak install flathub org.gnome.Platform//44 org.gnome.Sdk//44 org.freedesktop.Sdk.Extension.openjdk17/x86_64/22.08 || exit 1
+flatpak install flathub org.gnome.Platform//46 org.gnome.Sdk//46 org.freedesktop.Sdk.Extension.openjdk17/x86_64/22.08 || exit 1
 
 echo "_"
 echo "Build flatpak"
