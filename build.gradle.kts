@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     application
 
@@ -8,19 +10,18 @@ plugins {
     kotlin("jvm") version "2.0.10"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
-java.targetCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
-    mavenCentral()
     gradlePluginPortal()
     maven { url = uri("https://jitpack.io") }
     maven { url = uri("maven-local") }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
