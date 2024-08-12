@@ -22,19 +22,19 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "commit": "38c77c13cc763e884870b6b52a309c357514df5a"
+          "branch": "38c77c13cc763e884870b6b52a309c357514df5a"
         },
         {
           "type": "file",
-          "url": "https://services.gradle.org/distributions/gradle-8.1.1-bin.zip",
-          "sha256": "e111cb9948407e26351227dabce49822fb88c37ee72f1d1582a69c68af2e702f",
+          "url": "https://services.gradle.org/distributions/gradle-8.9-bin.zip",
+          "sha256": "d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab",
           "dest": "gradle/wrapper",
-          "dest-filename": "gradle-8.1.1-bin.zip"
+          "dest-filename": "gradle-8.9-bin.zip"
         },
         "gradle-sources.json"
       ],
       "build-commands": [
-        "sed -i s/distributionUrl.*/distributionUrl=gradle-8.1.1-bin.zip/ gradle/wrapper/gradle-wrapper.properties",
+        "sed -i s/distributionUrl.*/distributionUrl=gradle-8.9-bin.zip/ gradle/wrapper/gradle-wrapper.properties",
         "source /usr/lib/sdk/openjdk11/enable.sh && ./gradlew build",
         "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh",
         "install -Dm644 build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",

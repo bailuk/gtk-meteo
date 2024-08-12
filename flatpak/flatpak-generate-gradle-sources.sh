@@ -20,31 +20,64 @@ set -e
 # Original Script: https://github.com/TobTobXX/flatpak-builder-tools/tree/master/gradle
 
 test -f gradlew || cd ..
+test -f gradlew || cd ..
 test -f gradlew || exit 1
 
-PROJECT_ROOT="$(pwd)"
+# Must be an absolute path
+project_root="$(pwd)"
+module_root="${project_root}"
+source_file="${module_root}/flatpak/gradle-sources.json"
 
-SOURCES_FILE="${PROJECT_ROOT}/flatpak/gradle-sources.json"
+gradlew_version="$(grep bin.zip ${project_root}/gradle/wrapper/gradle-wrapper.properties | cut -d '-' -f 2-2)"
+gradlew_url="https://services.gradle.org/distributions/gradle-${gradlew_version}-bin.zip"
+gradlew_sha256_url="https://downloads.gradle.org/distributions/gradle-${gradlew_version}-bin.zip.sha256"
+gradlew_sha256="$(curl ${gradlew_sha256_url})"
+
+echo "Gradle wrapper: ${gradlew_url} (${gradlew_sha256})"
 
 # The target to generate the dependencies for:
-TARGET="build"
+gradle_target="build"
 
 # The maven repos:
 REPO_BASEURL=(
-  'https://plugins.gradle.org/m2/'
 	'https://repo1.maven.org/maven2/'
+	'https://dl.google.com/android/maven2/'
+	'https://plugins.gradle.org/m2/'
 	'https://jitpack.io/'
 )
 
-gradle_user_home="${PROJECT_ROOT}/build/gradle_flatpak"
-maven_repo="${PROJECT_ROOT}/build/maven_flatpak"
+gradle_user_home="${module_root}/flatpak/build/gradle"
+maven_repo="${module_root}/flatpak/build/maven"
+
+# Clean cache
+if [ -d ${gradle_user_home}/chaches ]; then
+  rm -r ${gradle_user_home}/chaches
+fi
+
+if [ -d ${maven_repo} ]; then
+  rm -r ${maven_repo}
+fi
 
 mkdir -p $gradle_user_home
 mkdir -p $maven_repo
 
+if [ ! -z $1 ]; then
+  echo "_"
+  echo "Using proxy: $1"
+  gradle_proxy="-Dhttps.proxyHost=${1} -Dhttps.proxyPort=8080 -Dhttp.proxyHost=${1} -Dhttp.proxyPort=8080"
+  export GRADLE_OPTS=$gradle_proxy
+  export JAVA_OPTS=$gradle_proxy
+  export http_proxy=http://${1}:8080
+  export https_proxy=http://${1}:8080
+fi
+
+if [ -f "$source_file" ]; then
+  mv $source_file "${source_file}-$(date -Iseconds)"
+fi
+
 echo "_"
 echo "Downloading all dependencies into ${gradle_user_home}"
-./gradlew -g "$gradle_user_home" "$TARGET" --no-daemon -q
+./gradlew -g "$gradle_user_home" "$gradle_target" $gradle_proxy --no-daemon -q
 
 cd "$gradle_user_home/caches/modules-2/files-2.1" || exit 1
 
@@ -75,16 +108,15 @@ echo "All interesting files are now in the maven repo"
 echo "Create the json sources file"
 cd "$maven_repo"
 
-json_file="$SOURCES_FILE"
-echo '[' > "$json_file"
+echo '[' > "$source_file"
 
 echo "_"
 echo "Probe repository for each file and write source object to json"
-find * -type f -print0 | while IFS= read -r -d '' file; do
+find * -type f | sort | while IFS= read -r file; do
 	url=''
 	for repo in "${REPO_BASEURL[@]}"; do
 		url_to_try="${repo}${file}"
-		if curl --HEAD "$url_to_try" --fail -L &> /dev/null; then
+		if curl --head "$url_to_try" --fail -L &> /dev/null; then
 			url="$url_to_try"
 			break
 		fi
@@ -100,7 +132,7 @@ find * -type f -print0 | while IFS= read -r -d '' file; do
   echo "$hash"
   echo "$file"
 
-	cat << HERE >> "$json_file"
+	cat << HERE >> "$source_file"
 	{
 		"type": "file",
 		"url": "$url",
@@ -111,13 +143,25 @@ find * -type f -print0 | while IFS= read -r -d '' file; do
 HERE
 done
 
-# Remove last line in json file and replace with closing braces without comma
-head -n -1 "$json_file" > temp.json && mv temp.json "$json_file"
-echo '	}' >> "$json_file"
-# And close the json array
-echo ']' >> "$json_file"
+echo "_"
+echo "$gradlew_url"
+echo "$gradlew_sha256"
+echo "gradlew/wrapper/gradle-bin.zip"
+cat << HERE >> "$source_file"
+  {
+    "type": "file",
+    "url": "${gradlew_url}",
+    "sha256": "${gradlew_sha256}",
+    "dest": "gradle/wrapper",
+    "dest-filename": "gradle-bin.zip"
+  }
+HERE
 
-cd "$projectRoot"
+# Remove last line in json file and replace with closing braces without comma
+head -n -1 "$source_file" > temp.json && mv temp.json "$source_file"
+echo '	}' >> "$source_file"
+# And close the json array
+echo ']' >> "$source_file"
 
 echo "_"
 echo "Finished. Success is unknown until observed."

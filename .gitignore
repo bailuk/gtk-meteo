@@ -75,6 +75,8 @@ Thumbs.db
 
 # Flatpak
 .flatpak-builder/
+gradle-sources.json?*
+maven-local
 
 # Development
 todo/
