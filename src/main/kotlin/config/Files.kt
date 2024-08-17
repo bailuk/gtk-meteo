@@ -4,10 +4,13 @@ import config.Strings.userAgent
 import java.io.File
 
 object Files {
-    val configDirectory =
-        File(System.getProperty("user.home") + "/.config/$userAgent/")
+
+    private val configHome = (System.getenv("XDG_CONFIG_HOME")
+        ?: (System.getProperty("user.home") + "/.config")) + "/$userAgent"
+    val configDirectory = File(configHome)
 
     init {
+        println("CONFIG_HOME: $configHome")
         configDirectory.mkdirs()
     }
 
