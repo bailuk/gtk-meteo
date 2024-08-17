@@ -3,7 +3,7 @@
 <component type="desktop-application">
     <id>ch.bailu.gtk_meteo</id>
     <name>GTK Meteo</name>
-    <summary>Select location from map and show weather forecast</summary>
+    <summary>Select location from map and show forecast</summary>
     <developer id="ch.bailu">
         <name>bailuk</name>
     </developer>

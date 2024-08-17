@@ -22,7 +22,7 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "branch": "c6a443d1cd72768e323ec785e21943673e79f1f4"
+          "branch": "8a38a8ee91d18e0cda31d823f5d8b5a7ca76840e"
         },
         "gradle-sources.json"
       ],
