@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     application
 
@@ -5,23 +7,21 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
     // https://kotlinlang.org/docs/gradle-configure-project.html
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "2.0.10"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
-java.targetCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
-    maven { url = uri("https://jitpack.io") }
-    mavenCentral()
-    mavenLocal()
     gradlePluginPortal()
+    maven { url = uri("https://jitpack.io") }
     maven { url = uri("maven-local") }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "11"
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
@@ -40,7 +40,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
 
 

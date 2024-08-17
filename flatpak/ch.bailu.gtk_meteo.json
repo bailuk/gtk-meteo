@@ -1,10 +1,10 @@
 {
   "app-id": "ch.bailu.gtk_meteo",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "43",
+  "runtime-version": "46",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
-    "org.freedesktop.Sdk.Extension.openjdk11"
+    "org.freedesktop.Sdk.Extension.openjdk17"
   ],
   "command": "gtk-meteo.sh",
   "modules": [
@@ -12,7 +12,7 @@
       "name": "openjdk",
       "buildsystem": "simple",
       "build-commands": [
-        "/usr/lib/sdk/openjdk11/install.sh"
+        "/usr/lib/sdk/openjdk17/install.sh"
       ]
     },
     {
@@ -22,20 +22,13 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "commit": "38c77c13cc763e884870b6b52a309c357514df5a"
-        },
-        {
-          "type": "file",
-          "url": "https://services.gradle.org/distributions/gradle-8.1.1-bin.zip",
-          "sha256": "e111cb9948407e26351227dabce49822fb88c37ee72f1d1582a69c68af2e702f",
-          "dest": "gradle/wrapper",
-          "dest-filename": "gradle-8.1.1-bin.zip"
+          "branch": "543eb0a5ff40b57d70277fb6c7ac9b3e6f9fb431"
         },
         "gradle-sources.json"
       ],
       "build-commands": [
-        "sed -i s/distributionUrl.*/distributionUrl=gradle-8.1.1-bin.zip/ gradle/wrapper/gradle-wrapper.properties",
-        "source /usr/lib/sdk/openjdk11/enable.sh && ./gradlew build",
+        "sed -i s/distributionUrl.*/distributionUrl=gradle-bin.zip/ gradle/wrapper/gradle-wrapper.properties",
+        "source /usr/lib/sdk/openjdk17/enable.sh && ./gradlew build",
         "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh",
         "install -Dm644 build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",
         "install -Dm644 flatpak/ch.bailu.gtk_meteo.desktop /app/share/applications/ch.bailu.gtk_meteo.desktop",

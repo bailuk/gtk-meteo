@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- https://www.freedesktop.org/software/appstream/docs/ -->
-<component type="desktop">
+<component type="desktop-application">
     <id>ch.bailu.gtk_meteo</id>
     <name>GTK Meteo</name>
-    <summary>Select location from map and show weather forecast</summary>
+    <summary>Select location from map and show forecast</summary>
+    <developer id="ch.bailu">
+        <name>bailuk</name>
+    </developer>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>MIT</project_license>
     <launchable type="desktop-id">ch.bailu.gtk_meteo.desktop</launchable>
@@ -18,20 +21,15 @@
     <url type="homepage">https://github.com/bailuk/gtk-meteo/</url>
     <screenshots>
         <screenshot type="default">
+            <image>https://raw.githubusercontent.com/bailuk/gtk-meteo/main/screenshot.png</image>
             <caption>GTK Meteo</caption>
-            <image width="362" height="722">
-                https://raw.githubusercontent.com/bailuk/gtk-meteo/main/screenshot.png
-            </image>
         </screenshot>
     </screenshots>
-    <translation/>
+    <content_rating type="oars-1.1"/>
     <releases>
+        <release version="0.2.2" date="2024-08-12"/>
         <release version="0.2.1" date="2023-09-22"/>
         <release version="0.2.0" date="2022-12-03"/>
         <release version="0.1.0" date="2022-08-05"/>
     </releases>
-    <custom>
-        <value key="Purism::form_factor">workstation</value>
-        <value key="Purism::form_factor">mobile</value>
-    </custom>
 </component>

@@ -60,7 +60,7 @@ fi
 
 # installation type
 if [ "${option_install}" = "--remote" ]; then
-  echo ">> install on '$remote'"
+  echo ">> install on '$target'"
   home=$(ssh $target echo '$HOME')
   xdg_data_home=$(ssh $target echo '$XDG_DATA_HOME')
   cmd="ssh $target"

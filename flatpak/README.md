@@ -2,11 +2,21 @@
 # Create Flatpak
 
 ```bash
-# generate 'flatpak/gradle-sources.json'
-ci/flatpak-generate-gradle-sources.sh
+# Clear cache
+rm -rf build
 
-# create and run flatpak distribution
-ci/flatpak-create.sh
+# Generate 'gradle-sources.json'
+./flatpak-generate-gradle-sources.sh
+
+# Commit changes and push changes
+# Pin to commit (update flatpak manifest)
+./flatpak-pin-commit.sh 
+
+# Create flatpak
+./flatpak-create.sh
+
+# ...Or build install and test flathub-flatpak
+./flatpak-create-lint.sh 
 ```
 
 # Flatpak and gradle
@@ -22,11 +32,12 @@ Solution:
 
 ```bash
 # Open shell inside runtime
-flatpak run org.gnome.Sdk//43
-
+flatpak run org.gnome.Sdk//44
+flatpak run --command=/bin/bash ch.bailu.gtk_meteo
+export PATH=$PATH:/bin
 ```
 
 # Flatpak examples
 
-https://github.com/flathub/org.gnome.gitlab.somas.Apostrophe/blob/master/org.gnome.gitlab.somas.Apostrophe.json
-https://github.com/flathub/org.ghidra_sre.Ghidra
+- [Apostrophe](https://github.com/flathub/org.gnome.gitlab.somas.Apostrophe/blob/master/org.gnome.gitlab.somas.Apostrophe.json)
+- [Ghidra](https://github.com/flathub/org.ghidra_sre.Ghidra)
