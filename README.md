@@ -4,6 +4,10 @@
 Weather forecast application based on [mapsforge-gtk](https://github.com/bailuk/mapsforge-gtk) and [java-gtk](https://github.com/bailuk/java-gtk).
 Forecast data is from [Meteorologisk institutt Norge](https://www.met.no).
 
+<a href='https://flathub.org/apps/ch.bailu.gtk_meteo'>
+    <img width='240' alt='Get it on Flathub' src='https://flathub.org/api/badge?locale=nb-NO'/>
+</a>
+
 ## Features
 - Select place from map or text search
 - 5 days forecast
