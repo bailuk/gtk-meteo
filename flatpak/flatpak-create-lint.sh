@@ -5,9 +5,6 @@ full_id="ch.bailu.$short_id"
 
 # As described in https://docs.flathub.org/docs/for-app-authors/submission/
 
-test -d flatpak || cd ..
-cd flatpak || exit 1
-
 flatpak_base="build/flatpak"
 flatpak_export="${flatpak_base}/export"
 flatpak_repo="${flatpak_base}/repo"
@@ -64,7 +61,6 @@ flatpak run --command=flatpak-builder-lint org.flatpak.Builder repo ${flatpak_re
 echo "_"
 echo "Export flatpak"
 flatpak build-export ${flatpak_export} ${flatpak_build} || exit 1
-
 
 echo "_"
 echo "Build single-file bundle"
