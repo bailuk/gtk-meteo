@@ -12,10 +12,10 @@ object Prefs {
         prefs = Preferences.userRoot().node("gtk-meteo")
     }
     fun putAutoCycle(value: Boolean) {
-        prefs.putBoolean(Keys.AUTO_CYCLE, value)
+        prefs.putBoolean(Keys.AUTO_CYCLE.name, value)
     }
 
     fun getAutoCycle(): Boolean {
-        return prefs.getBoolean(Keys.AUTO_CYCLE, false)
+        return prefs.getBoolean(Keys.AUTO_CYCLE.name, false)
     }
 }

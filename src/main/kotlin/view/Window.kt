@@ -42,7 +42,7 @@ class Window(app: Application) {
         window.titlebar = header.headerBar
         window.iconName = Strings.appID
 
-        CSS.addProviderForDisplay(window.display, Files.appCss)
+        CSS.addProviderForDisplay(window.display, Files.APP_CSS)
         box.append(place.box)
         box.append(days.icons)
         box.append(hours.revealer)
@@ -82,7 +82,7 @@ class Window(app: Application) {
         overlay.addOverlay(Spinner().box)
         box.append(overlay)
 
-        window.setDefaultSize(Layout.windowWidth, Layout.windowHeight)
+        window.setDefaultSize(Layout.WINDOW_WIDTH, Layout.WINDOW_HEIGHT)
 
         window.child = box
         window.onShow {
@@ -94,12 +94,12 @@ class Window(app: Application) {
             exitProcess(0)
         }
 
-        ActionHandler.get(app, Keys.ABOUT).onActivate { ->
+        ActionHandler.get(app, Keys.ABOUT.name).onActivate { ->
             About.show(window)
         }
-        ActionHandler.get(app, Keys.AUTO_CYCLE, Prefs.getAutoCycle()).onToggle {
+        ActionHandler.get(app, Keys.AUTO_CYCLE.name, Prefs.getAutoCycle()).onToggle {
             Prefs.putAutoCycle(it)
         }
-        window.show()
+        window.present()
     }
 }

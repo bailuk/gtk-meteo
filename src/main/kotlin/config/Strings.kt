@@ -3,7 +3,7 @@ package config
 import ch.bailu.gtk.type.Str
 
 object Strings {
-    const val userAgent = "gtk-meteo"
+    const val USER_AGENT = "gtk-meteo"
 
     val appID = Str("ch.bailu.gtk_meteo")
     val appTitle = Str("GTK Meteo")
@@ -11,7 +11,7 @@ object Strings {
 
     val copyright = Str(
         """
-            © 2021 - 2024 Lukas Bai, MIT License,
+            © 2021 - 2025 Lukas Bai, MIT License,
             © Map and data OSM contributors ODbL 1.0,
             © Icons and weather data MET Norway
         """.trimIndent()
@@ -20,9 +20,9 @@ object Strings {
     val website = Str("https://github.com/bailuk/gtk-meteo")
 
     // UX
-    const val close = "Close"
-    const val info = "Info…"
-    const val autoCenter = "Center map when changing place"
+    const val CLOSE = "Close"
+    const val INFO = "Info…"
+    const val AUTO_CENTER = "Center map when changing place"
 
     // CSS
     val linked = Str("linked")

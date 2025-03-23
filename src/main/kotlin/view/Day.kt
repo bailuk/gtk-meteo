@@ -34,7 +34,7 @@ class Day {
         this.day.setText(day.weekDay)
         min.setText("${day.tempMin}°")
         max.setText("${day.tempMax}°")
-        icon.setFromPixbuf(IconMap.getPixbuf(day.symbol, ICON_SIZE))
+        icon.setFromPaintable(IconMap.getPaintable(day.symbol, ICON_SIZE))
     }
 
     fun clear() {

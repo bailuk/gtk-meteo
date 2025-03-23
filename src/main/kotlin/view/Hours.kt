@@ -14,7 +14,7 @@ class Hours {
     }
     val revealer = Revealer()
     private val scroller = ScrolledWindow()
-    private val box = Box(Orientation.HORIZONTAL, Layout.margin)
+    private val box = Box(Orientation.HORIZONTAL, Layout.MARGIN)
     private val hours = ArrayList<Hour>()
     private var selected = -1
 
@@ -25,9 +25,9 @@ class Hours {
             box.append(hour.box)
         }
 
-        scroller.marginTop = Layout.margin
-        scroller.marginStart = Layout.margin
-        scroller.marginEnd = Layout.margin
+        scroller.marginTop = Layout.MARGIN
+        scroller.marginStart = Layout.MARGIN
+        scroller.marginEnd = Layout.MARGIN
         scroller.child = box
         scroller.minContentHeight = 75
 

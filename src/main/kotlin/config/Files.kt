@@ -1,12 +1,12 @@
 package config
 
-import config.Strings.userAgent
+import config.Strings.USER_AGENT
 import java.io.File
 
 object Files {
 
     private val configHome = (System.getenv("XDG_CONFIG_HOME")
-        ?: (System.getProperty("user.home") + "/.config")) + "/$userAgent"
+        ?: (System.getProperty("user.home") + "/.config")) + "/$USER_AGENT"
     val configDirectory = File(configHome)
 
     init {
@@ -24,5 +24,5 @@ object Files {
         return File(configDirectory, jsonName)
     }
 
-    const val appCss = "/app.css"
+    const val APP_CSS = "/app.css"
 }

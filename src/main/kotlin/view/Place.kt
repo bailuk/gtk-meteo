@@ -11,10 +11,10 @@ import model.Model
 
 class Place {
     val box = Box(Orientation.VERTICAL,0).apply {
-        marginStart = Layout.margin
-        marginEnd = Layout.margin
-        marginBottom = Layout.margin
-        marginTop = Layout.margin
+        marginStart = Layout.MARGIN
+        marginEnd = Layout.MARGIN
+        marginBottom = Layout.MARGIN
+        marginTop = Layout.MARGIN
 
         val name = Label(Str.NULL).apply {
             useMarkup = true

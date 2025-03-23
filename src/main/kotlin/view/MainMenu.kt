@@ -33,8 +33,8 @@ class MainMenu(app: Application) {
                         }
                     })
                     appendSection(Str.NULL, Menu().apply {
-                        append(Strings.autoCenter, "app.${Keys.AUTO_CYCLE}")
-                        append(Strings.info, "app.${Keys.ABOUT}")
+                        append(Strings.AUTO_CENTER, "app.${Keys.AUTO_CYCLE}")
+                        append(Strings.INFO, "app.${Keys.ABOUT}")
                     })
                 }
             }

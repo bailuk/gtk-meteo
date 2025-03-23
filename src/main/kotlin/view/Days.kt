@@ -29,8 +29,8 @@ class Days(private val dayDetail: Hours) {
             icons.append(day.button)
         }
         icons.show()
-        icons.marginStart = Layout.margin
-        icons.marginEnd = Layout.margin
+        icons.marginStart = Layout.MARGIN
+        icons.marginEnd = Layout.MARGIN
         icons.addCssClass(Strings.linked)
 
         Model.observeDays { days, index ->

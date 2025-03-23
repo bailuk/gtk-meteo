@@ -12,8 +12,8 @@ class Select {
     val box = Box(Orientation.HORIZONTAL, 0).apply {
         halign = Align.END
         valign = Align.START
-        marginEnd = Layout.margin
-        marginTop = Layout.margin
+        marginEnd = Layout.MARGIN
+        marginTop = Layout.MARGIN
 
         append(Button.newFromIconNameButton(Str("go-up-symbolic")).apply {
             onClicked  { Controller.addMapCenterToModelAndLoad() }
