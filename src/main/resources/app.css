@@ -10,3 +10,13 @@
     padding: 3px;
     background-color: #ffb3665f;
 }
+
+.intro {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 5px;
+    padding: 10px;
+    background-color: #0a9aed5f;
+    color: black;
+    border-radius: 10px;
+}

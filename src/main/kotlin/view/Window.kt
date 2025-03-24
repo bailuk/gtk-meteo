@@ -28,12 +28,11 @@ class Window(app: Application) {
 
     init {
         val box = Box(Orientation.VERTICAL, 0)
-        val place = Place()
-        val hours = Hours()
-        val days = Days(hours)
         val header = Header(app)
         val map = Map()
         val overlay = Overlay()
+        val weather = Weather()
+        val intro = Intro()
 
         Controller.withMap = { cb -> cb(map.mapView) }
         overlay.child = map.mapView.drawingArea
@@ -43,9 +42,8 @@ class Window(app: Application) {
         window.iconName = Strings.appID
 
         CSS.addProviderForDisplay(window.display, Files.APP_CSS)
-        box.append(place.box)
-        box.append(days.icons)
-        box.append(hours.revealer)
+        box.append(intro.label)
+        box.append(weather.box)
 
         box.append(Revealer().apply {
             val label = Label(Str.NULL).apply {
