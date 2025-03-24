@@ -6,10 +6,10 @@ import ch.bailu.gtk.gtk.MenuButton
 import ch.bailu.gtk.lib.handler.action.ActionHandler
 import ch.bailu.gtk.type.Str
 import config.Keys
-import config.Strings
 import controller.Controller
 import lib.extension.ellipsize
 import model.Model
+import config.I18n
 
 class MainMenu(app: Application) {
     private var places = ArrayList<String>()
@@ -33,8 +33,8 @@ class MainMenu(app: Application) {
                         }
                     })
                     appendSection(Str.NULL, Menu().apply {
-                        append(Strings.AUTO_CENTER, "app.${Keys.AUTO_CYCLE}")
-                        append(Strings.INFO, "app.${Keys.ABOUT}")
+                        append(I18n.getString(Keys.AUTO_CYCLE), "app.${Keys.AUTO_CYCLE}")
+                        append(I18n.getString(Keys.ABOUT), "app.${Keys.ABOUT}")
                     })
                 }
             }

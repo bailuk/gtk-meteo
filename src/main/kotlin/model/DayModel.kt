@@ -1,10 +1,9 @@
 package model
 
+import config.I18n
 import lib.json.JsonMap
 import java.time.LocalDate
 import java.time.ZonedDateTime
-import java.time.format.TextStyle
-import java.util.*
 import kotlin.collections.ArrayList
 
 class DayModel(dateTime: ZonedDateTime) {
@@ -15,7 +14,7 @@ class DayModel(dateTime: ZonedDateTime) {
     var tempMax = -10000.0
 
     var symbol = ""
-    val weekDay: String = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+    val weekDay: String = I18n.getDayOfWeek(date)
 
     private val samples = ArrayList<Sample>()
 

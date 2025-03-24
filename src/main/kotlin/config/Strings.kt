@@ -19,11 +19,6 @@ object Strings {
 
     val website = Str("https://github.com/bailuk/gtk-meteo")
 
-    // UX
-    const val CLOSE = "Close"
-    const val INFO = "Info…"
-    const val AUTO_CENTER = "Center map when changing place"
-
     // CSS
     val linked = Str("linked")
     val mapCenter = Str("map-center")
