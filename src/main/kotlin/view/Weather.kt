@@ -11,7 +11,7 @@ class Weather {
         val days = Days(hours)
 
         append(place.box)
-        append(days.icons)
+        append(days.box)
         append(hours.revealer)
 
         visible = false
