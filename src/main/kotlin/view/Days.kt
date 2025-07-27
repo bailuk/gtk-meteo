@@ -12,7 +12,7 @@ class Days(private val dayDetail: Hours) {
     companion object {
         const val DAYS = 5
     }
-    val icons = Box(Orientation.HORIZONTAL, 0)
+    val box = Box(Orientation.HORIZONTAL, 0)
     private val days = ArrayList<Day>()
 
     init {
@@ -26,12 +26,11 @@ class Days(private val dayDetail: Hours) {
                 }
             }
             days.add(day)
-            icons.append(day.button)
+            box.append(day.button)
         }
-        icons.show()
-        icons.marginStart = Layout.margin
-        icons.marginEnd = Layout.margin
-        icons.addCssClass(Strings.linked)
+        box.marginStart = Layout.MARGIN
+        box.marginEnd = Layout.MARGIN
+        box.addCssClass(Strings.linked)
 
         Model.observeDays { days, index ->
             if (Controller.isSelectedSlot(index)) {

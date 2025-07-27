@@ -28,12 +28,11 @@ class Window(app: Application) {
 
     init {
         val box = Box(Orientation.VERTICAL, 0)
-        val place = Place()
-        val hours = Hours()
-        val days = Days(hours)
         val header = Header(app)
         val map = Map()
         val overlay = Overlay()
+        val weather = Weather()
+        val intro = Intro()
 
         Controller.withMap = { cb -> cb(map.mapView) }
         overlay.child = map.mapView.drawingArea
@@ -42,10 +41,9 @@ class Window(app: Application) {
         window.titlebar = header.headerBar
         window.iconName = Strings.appID
 
-        CSS.addProviderForDisplay(window.display, Files.appCss)
-        box.append(place.box)
-        box.append(days.icons)
-        box.append(hours.revealer)
+        CSS.addProviderForDisplay(window.display, Files.APP_CSS)
+        box.append(intro.label)
+        box.append(weather.box)
 
         box.append(Revealer().apply {
             val label = Label(Str.NULL).apply {
@@ -82,7 +80,7 @@ class Window(app: Application) {
         overlay.addOverlay(Spinner().box)
         box.append(overlay)
 
-        window.setDefaultSize(Layout.windowWidth, Layout.windowHeight)
+        window.setDefaultSize(Layout.WINDOW_WIDTH, Layout.WINDOW_HEIGHT)
 
         window.child = box
         window.onShow {
@@ -94,12 +92,12 @@ class Window(app: Application) {
             exitProcess(0)
         }
 
-        ActionHandler.get(app, Keys.ABOUT).onActivate { ->
+        ActionHandler.get(app, Keys.ABOUT.name).onActivate { ->
             About.show(window)
         }
-        ActionHandler.get(app, Keys.AUTO_CYCLE, Prefs.getAutoCycle()).onToggle {
+        ActionHandler.get(app, Keys.AUTO_CYCLE.name, Prefs.getAutoCycle()).onToggle {
             Prefs.putAutoCycle(it)
         }
-        window.show()
+        window.present()
     }
 }

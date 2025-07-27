@@ -1,7 +1,11 @@
 package view
 
-import ch.bailu.gtk.gtk.*
+import ch.bailu.gtk.gtk.AboutDialog
+import ch.bailu.gtk.gtk.Button
+import ch.bailu.gtk.gtk.HeaderBar
+import ch.bailu.gtk.gtk.License
 import ch.bailu.gtk.gtk.Window
+import config.I18n
 import config.Strings
 import lib.icons.IconMap
 
@@ -17,7 +21,7 @@ object About {
             titlebar = createHeaderBar(this)
             transientFor = window
             modal = true
-            show()
+            present()
         }
     }
 
@@ -25,7 +29,7 @@ object About {
         return HeaderBar().apply {
              showTitleButtons = false
              packEnd(Button().apply {
-                 setLabel(Strings.close)
+                 setLabel(I18n.getString("close"))
                  onClicked {
                      aboutDialog.close()
                  }

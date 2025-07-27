@@ -3,7 +3,6 @@ package view
 import ch.bailu.gtk.gtk.Align
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Orientation
-import ch.bailu.gtk.type.Str
 import config.Layout
 import config.Strings
 import controller.Controller
@@ -16,10 +15,10 @@ class Spinner {
 
         addCssClass(Strings.mapCenter)
         append(GtkSpinner().apply {
-            setSizeRequest(Layout.centerSquare,Layout.centerSquare)
+            setSizeRequest(Layout.CENTER_SQUARE,Layout.CENTER_SQUARE)
             Controller.withSpinner = { cb -> cb(this) }
-            marginStart = Layout.margin
-            marginTop = Layout.margin
+            marginStart = Layout.MARGIN
+            marginTop = Layout.MARGIN
         })
     }
 }

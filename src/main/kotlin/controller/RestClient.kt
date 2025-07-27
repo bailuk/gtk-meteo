@@ -66,7 +66,7 @@ class RestClient(val file: File, private val start: String = "", private val end
 
     private fun getRequest(url: String) : Request {
         return Request.Builder()
-                .url(url).header("User-Agent", Strings.userAgent)
+                .url(url).header("User-Agent", Strings.USER_AGENT)
                 .build()
     }
 }

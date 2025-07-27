@@ -3,11 +3,8 @@ package model
 import lib.json.JsonMap
 
 class PlaceModel {
-    var city = ""
-        private set
-
-    var country = ""
-        private set
+    private var city = ""
+    private var country = ""
 
     var markup = ""
         private set

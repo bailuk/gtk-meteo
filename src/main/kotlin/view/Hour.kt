@@ -29,6 +29,6 @@ class Hour {
     fun update(sample: Sample) {
         time.setText(sample.dateTime.toLocalTime().hour.toString())
         temp.setText("${sample.airTemperature}°")
-        icon.setFromPixbuf(IconMap.getPixbuf(sample.symbol, ICON_SIZE))
+        icon.setFromPaintable(IconMap.getPaintable(sample.symbol, ICON_SIZE))
     }
 }

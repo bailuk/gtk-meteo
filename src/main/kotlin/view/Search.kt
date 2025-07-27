@@ -14,8 +14,8 @@ class Search(private val app: Application) {
         halign = Align.START
         valign = Align.START
         addCssClass(Strings.linked)
-        marginTop = Layout.margin
-        marginStart = Layout.margin
+        marginTop = Layout.MARGIN
+        marginStart = Layout.MARGIN
 
         val entry = Entry()
         append(entry.apply {

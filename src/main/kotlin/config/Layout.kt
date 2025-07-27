@@ -1,8 +1,8 @@
 package config
 
 object Layout {
-    const val centerSquare = 50
-    const val windowWidth = 720 / 2
-    const val windowHeight = 1440 / 2
-    const val margin = 5
+    const val CENTER_SQUARE = 50
+    const val WINDOW_WIDTH = 720 / 2
+    const val WINDOW_HEIGHT = 1440 / 2
+    const val MARGIN = 5
 }

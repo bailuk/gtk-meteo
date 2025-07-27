@@ -13,8 +13,8 @@ class Navigation {
     val box = Box(Orientation.HORIZONTAL, 0).apply {
         halign = Align.END
         valign = Align.END
-        marginEnd = Layout.margin
-        marginBottom = Layout.margin
+        marginEnd = Layout.MARGIN
+        marginBottom = Layout.MARGIN
         addCssClass(Strings.linked)
 
         append(Button.newFromIconNameButton(Str("zoom-in-symbolic")).apply {
