@@ -1,4 +1,4 @@
-# Next
+# 0.2.3
 
 - Update mapsforge-gtk to 0.5.0
 - Update mapsforge to 0.24.1
