@@ -31,8 +31,17 @@ Solution:
 # Flatpak commands
 
 ```bash
+# List installed
+flatpak list
+flatpak list --app
+flatpak list --runtime
+
+# Uninstall
+flatpak uninstall ch.bailu.gtk_meteo
+flatpak uninstall --unused
+
 # Open shell inside runtime
-flatpak run org.gnome.Sdk//44
+flatpak run org.gnome.Sdk//47
 flatpak run --command=/bin/bash ch.bailu.gtk_meteo
 export PATH=$PATH:/bin
 ```
