@@ -33,4 +33,12 @@
         <release version="0.2.0" date="2022-12-03"/>
         <release version="0.1.0" date="2022-08-05"/>
     </releases>
+    <recommends>
+        <control>keyboard</control>
+        <control>pointing</control>
+        <control>touch</control>
+    </recommends>
+    <requires>
+        <display_length compare="ge">360</display_length>
+    </requires>
 </component>
