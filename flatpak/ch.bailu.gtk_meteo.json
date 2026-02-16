@@ -30,7 +30,7 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "commit": "5593aef172f3c1bbe83d7142f3f0f783db67af36"
+          "commit": "34a2fed5faebd118ec91b5ac7fd39aad6c3614d2"
         },
         "gradle-sources.json"
       ],
