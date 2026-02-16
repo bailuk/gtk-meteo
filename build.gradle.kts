@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     application
 
-    // https://imperceptiblethoughts.com/shadow/getting-started
-    id("com.gradleup.shadow") version "8.3.6"
+    // https://gradleup.com/shadow/getting-started/
+    id("com.gradleup.shadow") version "9.3.1"
 
     // https://kotlinlang.org/docs/gradle-configure-project.html
-    kotlin("jvm") version "2.1.20"
+    kotlin("jvm") version "2.3.10"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -37,10 +37,10 @@ dependencies {
     implementation("com.github.bailuk:mapsforge-gtk:${mapsForgeGtkVersion}")
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation("com.google.code.gson:gson:2.12.1")
+    implementation("com.google.code.gson:gson:2.13.2")
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:okhttp:5.2.3")
 }
 
 

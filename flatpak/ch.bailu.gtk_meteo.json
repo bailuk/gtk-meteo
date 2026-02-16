@@ -12,10 +12,7 @@
     "--share=ipc",
     "--socket=wayland",
     "--socket=fallback-x11",
-    "--device=dri",
-    "--env=GIO_EXTRA_MODULES=/app/lib/gio/modules",
     "--env=JAVA_HOME=/app/jre",
-    "--env=LIBO_FLATPAK=1",
     "--env=PATH=/app/jre/bin:/app/bin:/usr/bin"
   ],
   "modules": [
