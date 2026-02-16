@@ -4,6 +4,8 @@
 - Update gradle: ./gradlew wrapper --gradle-version 8.14.4
 - Update kotlin to 2.3.10
 - Update gson to 2.13.2
+- Update gnome runtime to 49 (flatpak)
+- Metainfo: Add device-support metadata for mobile devices
 
 # 0.2.3
 
