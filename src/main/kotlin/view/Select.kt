@@ -6,10 +6,12 @@ import ch.bailu.gtk.gtk.Button
 import ch.bailu.gtk.gtk.Orientation
 import ch.bailu.gtk.type.Str
 import config.Layout
+import config.Strings
 import controller.Controller
 
 class Select {
     val box = Box(Orientation.HORIZONTAL, 0).apply {
+        addCssClass(Strings.overlay)
         halign = Align.END
         valign = Align.START
         marginEnd = Layout.MARGIN

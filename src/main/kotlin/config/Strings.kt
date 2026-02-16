@@ -21,6 +21,7 @@ object Strings {
 
     // CSS
     val linked = Str("linked")
+    val overlay = Str("overlay")
     val mapCenter = Str("map-center")
 
     // Defaults
