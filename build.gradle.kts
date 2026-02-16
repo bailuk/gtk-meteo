@@ -16,7 +16,6 @@ java.targetCompatibility = JavaVersion.VERSION_17
 repositories {
     gradlePluginPortal()
     maven { url = uri("https://jitpack.io") }
-    maven { url = uri("maven-local") }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

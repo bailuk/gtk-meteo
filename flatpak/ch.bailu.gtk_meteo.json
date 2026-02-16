@@ -12,6 +12,7 @@
     "--share=ipc",
     "--socket=wayland",
     "--socket=fallback-x11",
+    "--device=dri",
     "--env=JAVA_HOME=/app/jre",
     "--env=PATH=/app/jre/bin:/app/bin:/usr/bin"
   ],
@@ -36,6 +37,9 @@
       ],
       "build-commands": [
         "sed -i s/distributionUrl.*/distributionUrl=gradle-bin.zip/ gradle/wrapper/gradle-wrapper.properties",
+        "sed -i 's|gradlePluginPortal()|maven { url = uri(\"maven-local\") }|g' settings.gradle.kts",
+        "sed -i 's|gradlePluginPortal()|maven { url = uri(\"maven-local\") }|g' build.gradle.kts",
+        "sed -i '/jitpack/d' build.gradle.kts",
         "source /usr/lib/sdk/openjdk17/enable.sh && ./gradlew build",
         "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh",
         "install -Dm644 build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",
