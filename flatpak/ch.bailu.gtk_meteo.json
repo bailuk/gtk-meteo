@@ -1,7 +1,7 @@
 {
   "app-id": "ch.bailu.gtk_meteo",
   "runtime": "org.gnome.Platform",
-  "runtime-version": "48",
+  "runtime-version": "49",
   "sdk": "org.gnome.Sdk",
   "sdk-extensions": [
     "org.freedesktop.Sdk.Extension.openjdk17"
@@ -13,9 +13,7 @@
     "--socket=wayland",
     "--socket=fallback-x11",
     "--device=dri",
-    "--env=GIO_EXTRA_MODULES=/app/lib/gio/modules",
     "--env=JAVA_HOME=/app/jre",
-    "--env=LIBO_FLATPAK=1",
     "--env=PATH=/app/jre/bin:/app/bin:/usr/bin"
   ],
   "modules": [
@@ -33,12 +31,15 @@
         {
           "type": "git",
           "url": "https://github.com/bailuk/gtk-meteo.git",
-          "commit": "5593aef172f3c1bbe83d7142f3f0f783db67af36"
+          "commit": "46872b1ee7a1a07a70f466ae85ed0407087708ae"
         },
         "gradle-sources.json"
       ],
       "build-commands": [
         "sed -i s/distributionUrl.*/distributionUrl=gradle-bin.zip/ gradle/wrapper/gradle-wrapper.properties",
+        "sed -i 's|gradlePluginPortal()|maven { url = uri(\"maven-local\") }|g' settings.gradle.kts",
+        "sed -i 's|gradlePluginPortal()|maven { url = uri(\"maven-local\") }|g' build.gradle.kts",
+        "sed -i '/jitpack/d' build.gradle.kts",
         "source /usr/lib/sdk/openjdk17/enable.sh && ./gradlew build",
         "install -Dm755 ci/flatpak-run-app.sh /app/bin/gtk-meteo.sh",
         "install -Dm644 build/libs/gtk-meteo-all.jar /app/lib/gtk-meteo.jar",

@@ -1,8 +1,8 @@
 package view
 
+import ch.bailu.gtk.adw.Application
+import ch.bailu.gtk.adw.ApplicationWindow
 import ch.bailu.gtk.glib.Glib
-import ch.bailu.gtk.gtk.Application
-import ch.bailu.gtk.gtk.ApplicationWindow
 import ch.bailu.gtk.gtk.Box
 import ch.bailu.gtk.gtk.Label
 import ch.bailu.gtk.gtk.Orientation
@@ -38,10 +38,10 @@ class Window(app: Application) {
         overlay.child = map.mapView.drawingArea
 
         window.title = Strings.appTitle
-        window.titlebar = header.headerBar
         window.iconName = Strings.appID
 
         CSS.addProviderForDisplay(window.display, Files.APP_CSS)
+        box.append(header.headerBar)
         box.append(intro.label)
         box.append(weather.box)
 
@@ -52,7 +52,7 @@ class Window(app: Application) {
                 addCssClass("error-message")
             }
 
-            child = label
+            this.child = label
             var timers = 0
 
             Controller.showError = { message ->
@@ -82,7 +82,7 @@ class Window(app: Application) {
 
         window.setDefaultSize(Layout.WINDOW_WIDTH, Layout.WINDOW_HEIGHT)
 
-        window.child = box
+        window.content = box
         window.onShow {
             map.initModel()
             Controller.loadModelFromFile()

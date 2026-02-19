@@ -16,6 +16,7 @@ class Navigation {
         marginEnd = Layout.MARGIN
         marginBottom = Layout.MARGIN
         addCssClass(Strings.linked)
+        addCssClass(Strings.overlay)
 
         append(Button.newFromIconNameButton(Str("zoom-in-symbolic")).apply {
             onClicked  { Controller.zoomIn() }

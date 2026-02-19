@@ -1,5 +1,5 @@
 import ch.bailu.gtk.gio.ApplicationFlags
-import ch.bailu.gtk.gtk.Application
+import ch.bailu.gtk.adw.Application
 import ch.bailu.gtk.type.Strs
 import config.Strings.appID
 import view.Window
